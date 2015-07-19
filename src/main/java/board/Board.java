@@ -1,4 +1,6 @@
 package board;
+
+import java.util.ArrayList;
 public class Board{
 	boolean sideToMove;
 	
@@ -7,7 +9,7 @@ public class Board{
 	boolean blackKingCastle;
 	boolean blackQueenCastle;
 
-	byte movesSincePieceLost; // 50-move rule
+	int movesSincePieceLost; // 50-move rule
 
 	/* 	Each piece will be represented by a number
 		0 - empty tile
@@ -23,13 +25,36 @@ public class Board{
 		[3][0] would correspond to white queen
 		[4][7] would correspond to black king
 	 */
-	byte[][] board;
+	int[][] board;
 
 	public Board(){
-		init(); //todo;
+		initialize(); //todo;
 	}
-	public static init(){
-		board = new byte[8][8];
+	
+	public void initialize(){
+		board = new int[8][8];
+		// For now being initialized with just a knight and king
 
+		board[4][0] =  1;
+		board[2][0] =  2;
+		board[5][0] =  2;
+
+		board[4][7] = -1;
+		board[2][7] = -2;
+		board[5][7] = -2;
+
+		sideToMove = true;
+		whiteKingCastle = true;
+		whiteQueenCastle = true;
+		blackKingCastle = true;
+		blackQueenCastle = true;
+	}
+
+	public int getPiece(XY a){
+		return board[a.x][a.y];
+	}
+
+	public ArrayList<XY> getMoves(XY a){
+		ArrayList<XY> moves = Piece.getMoves(getPiece(a),a); // unfiltered list, showing all moves assuming empty board
 	}
 }
