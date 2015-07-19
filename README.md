@@ -1,0 +1,1 @@
+Initial goal: make a board that handles knights and kings.
