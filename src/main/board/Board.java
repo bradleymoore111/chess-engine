@@ -102,7 +102,7 @@ public class Board{
 		String s="\n";
 
 		s+= ((sideToMove)?"White":"Black") + " to move.\n\n";
-		for(int i=0;i<8;i++){
+		for(int i=7;i>=0;i--){
 			s+="|";
 			for(int j=0;j<8;j++){
 				if((i+j)%2 == 0){
