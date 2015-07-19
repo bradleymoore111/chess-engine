@@ -1,6 +1,8 @@
-package board;
+package main.board;
 
 import java.util.ArrayList;
+import main.board.piece.Piece;
+import main.board.piece.XY;
 public class Board{
 	boolean sideToMove;
 	
@@ -56,5 +58,7 @@ public class Board{
 
 	public ArrayList<XY> getMoves(XY a){
 		ArrayList<XY> moves = Piece.getMoves(getPiece(a),a); // unfiltered list, showing all moves assuming empty board
+		// Filter stuff here
+		return moves;
 	}
 }

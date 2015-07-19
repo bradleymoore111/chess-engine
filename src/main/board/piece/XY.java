@@ -1,4 +1,4 @@
-package board.piece;
+package main.board.piece;
 
 public class XY{
 	public int x;

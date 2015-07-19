@@ -1,4 +1,4 @@
-package board.piece;
+package main.board.piece;
 
 import java.util.ArrayList;
 public class Piece{
