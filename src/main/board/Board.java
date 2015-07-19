@@ -64,9 +64,11 @@ public class Board{
 
 	public ArrayList<XY> getMoves(XY a){
 		int type = getPiece(a);
+		// getMoves is going to have to take in castling and enpassant stuff
+		
 		ArrayList<XY> m = Piece.getMoves(type,a,board); // unfiltered list, showing all moves assuming empty board
 		
-		// If bishop, rook, or queen, cannot move past pieces, ever. Those options will be filtered within each piece case
+		// If bishop, rook, or queen, cannot move past pieces, ever. Those options will be filtered within each piece's case
 
 		// UIniversal rule, cannot move onto friendly pieces, but can move onto enemies
 		for(int i=0;i<m.size();i++){
