@@ -2,7 +2,7 @@ package main.board.piece;
 
 import java.util.ArrayList;
 public class King{
-	public static ArrayList<XY> getMoves(XY pos,int[][] board){
+	public static ArrayList<XY> getMoves(XY pos){
 		ArrayList<XY> moves = new ArrayList<XY>();
 		int x = pos.x;
 		int y = pos.y;
@@ -14,6 +14,8 @@ public class King{
 			if(x+p.x>=0&&x+p.x<8&&y+p.y>=0&&y+p.y<8)
 				moves.add(new XY(x+p.x,y+p.y));
 		}
+
+		// Todo: castling
 
 		return moves;
 	}
