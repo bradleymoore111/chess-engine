@@ -2,16 +2,16 @@ package main.board.piece;
 
 import java.util.ArrayList;
 public class Piece{
-	public static ArrayList<XY> getMoves(int type,XY pos){
+	public static ArrayList<XY> getMoves(int type,XY pos,int[][] board){
 		if(type<0)
 			type = (int) (-1*type);
 		switch(type){
 			case 0:
 				return new ArrayList<XY>();
 			case 1:
-				return King.getMoves(pos);
+				return King.getMoves(pos,board);
 			case 2:
-				return Knight.getMoves(pos);
+				return Knight.getMoves(pos,board);
 			// case 3:
 			// 	return Bishop.getMoves(pos);
 			// 	break;

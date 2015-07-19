@@ -2,7 +2,7 @@ package main.board.piece;
 
 import java.util.ArrayList;
 public class Knight{
-	public static ArrayList<XY> getMoves(XY pos){
+	public static ArrayList<XY> getMoves(XY pos,int[][] board){
 		ArrayList<XY> moves = new ArrayList<XY>();
 		int x = pos.x;
 		int y = pos.y;
