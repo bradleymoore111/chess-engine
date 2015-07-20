@@ -2,7 +2,7 @@ package main.board.piece;
 
 import java.util.ArrayList;
 public class King{
-	public static ArrayList<XY> getMoves(XY pos,int[][] board){
+	public static ArrayList<XY> getMoves(XY pos,int[][] board,boolean kingSide,boolean queenSide){ // kingSide and queenSide are assumed to be for this king
 		ArrayList<XY> moves = new ArrayList<XY>();
 		int x = pos.x;
 		int y = pos.y;
@@ -17,7 +17,7 @@ public class King{
 
 		// Todo: castling
 
-		/*
+		/* pseudocode
 		type = board[x][y];
 
 		if(type>0){ // white

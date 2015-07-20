@@ -77,9 +77,22 @@ public class Board{
 
 	public ArrayList<XY> getMoves(XY a){
 		int type = getPiece(a);
-		// getMoves is going to have to take in castling and enpassant stuff
 		
-		ArrayList<XY> m = Piece.getMoves(type,a,board); // unfiltered list, showing all moves assuming empty board
+		// getMoves is going to have to take in castling and enpassant stuff
+		boolean first,second;
+		if(Math.abs(type) == 6){ // pawn
+			first = lastMoveEnPassantable;
+			second = lastPawnEnPassantable;
+		}else if(type>0){ // white
+			first = whiteKingCastle;
+			second = whiteQueenCastle;
+		}else{ // black
+			first = blackKingCastle;
+			second = blackQueenCastle;
+		}
+
+		ArrayList<XY> m = Piece.getMoves(type,a,board,first,second); 	// unfiltered in that pieces can capture their own, to be cleansed with the universal rule below
+																		// effectively passing a FEN format into it
 		
 		// If bishop, rook, or queen, cannot move past pieces, ever. Those options will be filtered within each piece's case
 

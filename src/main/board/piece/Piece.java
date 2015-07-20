@@ -9,17 +9,17 @@ public class Piece{
 			case 0:
 				return new ArrayList<XY>();
 			case 1:
-				return King.getMoves(pos,board);
+				return King.getMoves(pos,board,first,second);
 			case 2:
 				return Knight.getMoves(pos);
 			case 3:
 				return Bishop.getMoves(pos,board);
 			case 4:
 				return Rook.getMoves(pos,board);
-			// case 5:
-			// 	return Queen.getMoves(pos,board);
+			case 5:
+				return Queen.getMoves(pos,board);
 			// default:
-			// 	return Pawn.getMoves(pos);
+			// 	return Pawn.getMoves(pos,first,second);
 		}
 		return new ArrayList<XY>();
 	}
