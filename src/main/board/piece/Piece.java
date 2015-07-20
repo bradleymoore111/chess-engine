@@ -9,7 +9,7 @@ public class Piece{
 			case 0:
 				return new ArrayList<XY>();
 			case 1:
-				return King.getMoves(pos);
+				return King.getMoves(pos,board);
 			case 2:
 				return Knight.getMoves(pos);
 			case 3:
