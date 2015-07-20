@@ -83,7 +83,7 @@ public class Board{
 		
 		// If bishop, rook, or queen, cannot move past pieces, ever. Those options will be filtered within each piece's case
 
-		// UIniversal rule, cannot move onto friendly pieces, but can move onto enemies
+		// Universal rule, cannot move onto friendly pieces, but can move onto enemies
 		for(int i=0;i<m.size();i++){
 			int x=m.get(i).x;
 			int y=m.get(i).y;
