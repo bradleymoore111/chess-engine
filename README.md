@@ -1,1 +1,1 @@
-Initial goal: make a board that handles knights and kings.
+New goal: make a board that can handle all the rules of chess.
