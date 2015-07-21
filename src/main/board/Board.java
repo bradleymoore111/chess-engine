@@ -1,8 +1,7 @@
 package main.board;
 
 import java.util.ArrayList;
-import main.board.piece.Piece;
-import main.board.piece.XY;
+import main.board.piece.*;
 public class Board{
 	boolean sideToMove;
 	
@@ -77,23 +76,38 @@ public class Board{
 
 	public ArrayList<XY> getMoves(XY a){
 		int type = getPiece(a);
-		
-		// getMoves is going to have to take in castling and enpassant stuff
-		boolean first,second;
-		if(Math.abs(type) == 6){ // pawn
-			first = lastMoveEnPassantable;
-			second = lastPawnEnPassantable;
-		}else if(type>0){ // white
-			first = whiteKingCastle;
-			second = whiteQueenCastle;
-		}else{ // black
-			first = blackKingCastle;
-			second = blackQueenCastle;
+
+		ArrayList<XY> m = new ArrayList<XY>();
+
+		if(type<0)
+			type = (int) (-1*type);
+		switch(type){
+			case 0:
+				break;
+			case 1:
+				if(getPiece(a)>0){
+					m = King.getMoves(a,board,whiteKingCastle,whiteQueenCastle);
+				}else{
+					m = King.getMoves(a,board,blackKingCastle,blackQueenCastle);
+				}			
+				break;
+			case 2:
+				m = Knight.getMoves(a);
+				break;
+			case 3:
+				m = Bishop.getMoves(a,board);
+				break;
+			case 4:
+				m = Rook.getMoves(a,board);
+				break;
+			case 5:
+				m = Queen.getMoves(a,board);
+				break;
+			// default:
+			// 	m = Pawn.getMoves(a,lastMoveEnPassantable,lastPawnEnPassantable);
+			//	break;
 		}
 
-		ArrayList<XY> m = Piece.getMoves(type,a,board,first,second); 	// unfiltered in that pieces can capture their own, to be cleansed with the universal rule below
-																		// effectively passing a FEN format into it
-		
 		// If bishop, rook, or queen, cannot move past pieces, ever. Those options will be filtered within each piece's case
 
 		// Universal rule, cannot move onto friendly pieces, but can move onto enemies
@@ -125,8 +139,9 @@ public class Board{
 				}
 				s+= "|";
 			}
-			s+= "\n\n";
+			s+="  "+i+"\n\n";
 		}
+		s+="   0     1     2     3     4     5     6     7";
 		return s;
 	}
 }
