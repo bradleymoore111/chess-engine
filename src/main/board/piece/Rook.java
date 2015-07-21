@@ -8,40 +8,40 @@ public class Rook{
 		int y = pos.y;
 		
 		// Left
-		int i=x-1;
+		int i=x;
 		while(i>=0){
-			positions.add(new XY(i,y));
 			i--;
+			positions.add(new XY(i,y));
 			if(board[i][y] != 0){
 				break;
 			}	
 		}
 
 		// Right
-		i=x+1;
+		i=x;
 		while(i<8){
-			positions.add(new XY(i,y));
 			i++;
+			positions.add(new XY(i,y));
 			if(board[i][y] != 0){
 				break;
 			}
 		}
 
 		// Down
-		i=y-1;
+		i=y;
 		while(i>=0){
-			positions.add(new XY(x,i));
 			i--;
+			positions.add(new XY(x,i));
 			if(board[x][i] != 0){
 				break;
 			}
 		}
 
 		// Up
-		i=y+1;
+		i=y;
 		while(i<8){
-			positions.add(new XY(x,i));
 			i++;
+			positions.add(new XY(x,i));
 			if(board[x][i] != 0){
 				break;
 			}
