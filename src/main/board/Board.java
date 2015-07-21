@@ -127,7 +127,7 @@ public class Board{
 		return m;
 	}
 
-	public boolean isChecked(boolean color){
+	public boolean isChecked(boolean color){ // Is going through the entire board to find the king fast enough? As with this parameter I may have to.
 		// Check along diagonals for bishops, pawns, queens, or king of opposite color. Can stop checking if hit another piece
 		// Check along horizontal for rooks, queens, or king of opposite color. Can stop checking if hit another piece
 		// Check all possible knight squares.
