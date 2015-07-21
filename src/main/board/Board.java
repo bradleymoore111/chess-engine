@@ -126,6 +126,29 @@ public class Board{
 
 		return m;
 	}
+
+	public boolean isChecked(boolean color){
+		// Check along diagonals for bishops, pawns, queens, or king of opposite color. Can stop checking if hit another piece
+		// Check along horizontal for rooks, queens, or king of opposite color. Can stop checking if hit another piece
+		// Check all possible knight squares.
+
+		return true;
+	}
+
+	public void move(XY a,XY b){
+		/*
+			For the actual engine, I probably won't be using this specific command, as it involves some unneccessary calculations such as checking. Whereas for my type A calculation and branching, I'm probably going to just have a list of every single possible move, and want to filter each move preemptively to make sure legal. I'll still need the pawn and castle stuff, but can ignore the checking legal moves, so I'll copy pasta this function with an f in front of it for faster, but assuming legal move (so move will be carried out properly).
+		 */
+		// Todo: implement few checks
+		// Make sure is a legal move
+		// 	   Move is within that piece's move list (getMoves of that piece)
+		//     Doesn't result in check after move (handles both pins, and not dealing with present check)
+		// If pawn move, check if en passantable needs to be toggled
+		// If not pawn move, turn off en passantable (both variables)
+		// If king, check if it's the castle. If so, move rook
+		// 
+	}
+
 	public String toString(){
 		// Very quick ascii representation of the board.
 		String s="\n";
