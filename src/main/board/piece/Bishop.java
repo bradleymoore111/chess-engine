@@ -10,45 +10,46 @@ public class Bishop{
 		// 2 | 1
 		// -----
 		// 3 | 4
-		int i=x+1; // Quadrant 1
-		int j=y+1; // (x,y) is now (i,j)
-		while(i<8&&j<8){
-			positions.add(new XY(i,j));
+		int i=x; // Quadrant 1
+		int j=y; // (x,y) is now (i,j)
+		while(i<7&&j<7){
 			i++;
 			j++;
+			positions.add(new XY(i,j));
+			System.out.println("\ni: "+i+", j: "+j);
 			if(board[i][j] != 0){
 				break;
 			}
 		}
 
-		i=x-1; // Quadrant 2
-		j=y+1;
-		while(i>=0&&j<8){
-			positions.add(new XY(i,j));
+		i=x; // Quadrant 2
+		j=y;
+		while(i>=1&&j<7){
 			i--;
 			j++;
+			positions.add(new XY(i,j));
 			if(board[i][j] != 0){
 				break;
 			}
 		}
 
-		i=x-1; // Quadrant 3
-		j=y-1;
-		while(i>=0&&j>=0){
-			positions.add(new XY(i,j));
+		i=x; // Quadrant 3
+		j=y;
+		while(i>=1&&j>=1){
 			i--;
 			j--;
+			positions.add(new XY(i,j));
 			if(board[i][j] != 0){
 				break;
 			}
 		}
 
-		i=x+1; // Quadrant 4
-		j=y-1;
-		while(i<8&&j>=0){
-			positions.add(new XY(i,j));
+		i=x; // Quadrant 4
+		j=y;
+		while(i<7&&j>=1){
 			i++;
 			j--;
+			positions.add(new XY(i,j));
 			if(board[i][j] != 0){
 				break;
 			}

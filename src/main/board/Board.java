@@ -42,19 +42,21 @@ public class Board{
 		// Initializing the pieces in order
 		// Temporary, later will have pieces be loaded from a preset array (to allow gamemodes like horde and 960 to be more easily generated)
 		board[0][0] =  4;
-		board[1][0] =  3;
-		board[2][0] =  2;
+		board[1][0] =  2;
+		board[2][0] =  3;
+		board[3][0] =  5;
 		board[4][0] =  1;
-		board[5][0] =  2;
-		board[6][0] =  3;
+		board[5][0] =  3;
+		board[6][0] =  2;
 		board[7][0] =  4;
 
 		board[0][7] = -4;
-		board[1][7] = -3;
-		board[2][7] = -2;
+		board[1][7] = -2;
+		board[2][7] = -3;
+		board[3][7] = -5;
 		board[4][7] = -1;
-		board[5][7] = -2;
-		board[6][7] = -3;
+		board[5][7] = -3;
+		board[6][7] = -2;
 		board[7][7] = -4;
 
 		sideToMove = true;
@@ -128,9 +130,9 @@ public class Board{
 		// Very quick ascii representation of the board.
 		String s="\n";
 
-		s+= ((sideToMove)?"White":"Black") + " to move.\n\n";
+		s+= ((sideToMove)?"White":"Black") + " to move.\n\n|-----|-----|-----|-----|-----|-----|-----|-----|";
 		for(int i=7;i>=0;i--){
-			s+="|";
+			s+="\n|";
 			for(int j=0;j<8;j++){
 				if((i+j)%2 == 0){
 					s+= " " + ((board[j][i]>=0)?" ":"") + board[j][i] + "  ";
@@ -139,9 +141,9 @@ public class Board{
 				}
 				s+= "|";
 			}
-			s+="  "+i+"\n\n";
+			s+="  "+i+"\n|-----|-----|-----|-----|-----|-----|-----|-----|";
 		}
-		s+="   0     1     2     3     4     5     6     7";
+		s+="\n   0     1     2     3     4     5     6     7";
 		return s;
 	}
 }
