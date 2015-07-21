@@ -9,7 +9,7 @@ public class Rook{
 		
 		// Left
 		int i=x;
-		while(i>=0){
+		while(i>=1){
 			i--;
 			positions.add(new XY(i,y));
 			if(board[i][y] != 0){
@@ -19,7 +19,7 @@ public class Rook{
 
 		// Right
 		i=x;
-		while(i<8){
+		while(i<7){
 			i++;
 			positions.add(new XY(i,y));
 			if(board[i][y] != 0){
@@ -29,7 +29,7 @@ public class Rook{
 
 		// Down
 		i=y;
-		while(i>=0){
+		while(i>=1){
 			i--;
 			positions.add(new XY(x,i));
 			if(board[x][i] != 0){
@@ -39,7 +39,7 @@ public class Rook{
 
 		// Up
 		i=y;
-		while(i<8){
+		while(i<7){
 			i++;
 			positions.add(new XY(x,i));
 			if(board[x][i] != 0){
