@@ -16,6 +16,7 @@ public class King{
 		}
 
 		// Todo: castling
+		// Gotta add can't do it if currently checked
 
 		/* pseudocode
 		type = board[x][y];

@@ -128,7 +128,65 @@ public class Board{
 	}
 
 	public boolean isChecked(boolean color){ // Is going through the entire board to find the king fast enough? As with this parameter I may have to.
-		// Check along diagonals for bishops, pawns, queens, or king of opposite color. Can stop checking if hit another piece
+
+		int x=0,y=0; // holds location of king
+
+		int mod = ((color)?1:-1);
+		for(int i=0;i<8;i++){
+			for(int j=0;j<8;j++){
+				if(board[j][i] == mod){
+					x=j;
+					y=i;
+					break;
+				} 
+			}
+		}
+
+		// Check along diagonals for bishops, pawns, queens, or king of opposite color. Can stop checking if hits friendly piece, rook, or knight
+		// STILL NEED TO FIGURE OUT PAWNS PRETTY BADLY LIKE SERIOUSLY I THOUGHT CASTLING WAS ANNOYING.
+		// 2 | 1
+		// -----
+		// 3 | 4
+		int i=x; // Quadrant 1
+		int j=y; // (x,y) is now (i,j)
+		while(i<7&&j<7){
+			i++;
+			j++;
+			if(board[i][j]==(-1*mod*3) || board[i][j]==(-1*mod*5) || board[i][j]==(-1*mod)){
+				return false;
+			}
+		}
+
+		i=x; // Quadrant 2
+		j=y;
+		while(i>=1&&j<7){
+			i--;
+			j++;
+			if(board[i][j]==(-1*mod*3) || board[i][j]==(-1*mod*5) || board[i][j]==(-1*mod)){
+				return false;
+			}
+		}
+
+		i=x; // Quadrant 3
+		j=y;
+		while(i>=1&&j>=1){
+			i--;
+			j--;
+			if(board[i][j]==(-1*mod*3) || board[i][j]==(-1*mod*5) || board[i][j]==(-1*mod)){
+				return false;
+			}
+		}
+
+		i=x; // Quadrant 4
+		j=y;
+		while(i<7&&j>=1){
+			i++;
+			j--;
+			if(board[i][j]==(-1*mod*3) || board[i][j]==(-1*mod*5) || board[i][j]==(-1*mod)){
+				return false;
+			}
+		}
+
 		// Check along horizontal for rooks, queens, or king of opposite color. Can stop checking if hit another piece
 		// Check all possible knight squares.
 
@@ -137,7 +195,7 @@ public class Board{
 
 	public void move(XY a,XY b){
 		/*
-			For the actual engine, I probably won't be using this specific command, as it involves some unneccessary calculations such as checking. Whereas for my type A calculation and branching, I'm probably going to just have a list of every single possible move, and want to filter each move preemptively to make sure legal. I'll still need the pawn and castle stuff, but can ignore the checking legal moves, so I'll copy pasta this function with an f in front of it for faster, but assuming legal move (so move will be carried out properly).
+			For the actual engine, I probably won't be using this specific command, as it involves some unnecessary calculations such as checking. Whereas for my type A calculation and branching, I'm probably going to just have a list of every single possible move, and want to filter each move preemptively to make sure legal. I'll still need the pawn and castle stuff, but can ignore the checking legal moves, so I'll copy pasta this function with an f in front of it for faster, but assuming legal move (so move will be carried out properly).
 		 */
 		// Todo: implement few checks
 		// Make sure is a legal move
@@ -145,7 +203,8 @@ public class Board{
 		//     Doesn't result in check after move (handles both pins, and not dealing with present check)
 		// If pawn move, check if en passantable needs to be toggled
 		// If not pawn move, turn off en passantable (both variables)
-		// If king, check if it's the castle. If so, move rook
+		// If king, check if it's the castle. If so, move rook. If not, turn off that king's castling privileges 
+		// If rook, turn off that side castle privileges
 		// 
 	}
 

@@ -16,7 +16,6 @@ public class Bishop{
 			i++;
 			j++;
 			positions.add(new XY(i,j));
-			System.out.println("\ni: "+i+", j: "+j);
 			if(board[i][j] != 0){
 				break;
 			}
