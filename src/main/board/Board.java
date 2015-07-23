@@ -142,6 +142,7 @@ public class Board{
 			}
 		}
 
+		mod*=-1;
 		// Check along diagonals for bishops, pawns, queens, or king of opposite color. Can stop checking if hits friendly piece, rook, or knight
 		// STILL NEED TO FIGURE OUT PAWNS PRETTY BADLY LIKE SERIOUSLY I THOUGHT CASTLING WAS ANNOYING.
 		// 2 | 1
@@ -152,42 +153,76 @@ public class Board{
 		while(i<7&&j<7){
 			i++;
 			j++;
-			if(board[i][j]==(-1*mod*3) || board[i][j]==(-1*mod*5) || board[i][j]==(-1*mod)){
+			if(board[i][j]==(mod*3) || board[i][j]==(mod*5) || board[i][j]==(mod)){
 				return false;
 			}
 		}
-
 		i=x; // Quadrant 2
 		j=y;
 		while(i>=1&&j<7){
 			i--;
 			j++;
-			if(board[i][j]==(-1*mod*3) || board[i][j]==(-1*mod*5) || board[i][j]==(-1*mod)){
+			if(board[i][j]==(mod*3) || board[i][j]==(mod*5) || board[i][j]==(mod)){
 				return false;
 			}
 		}
-
 		i=x; // Quadrant 3
 		j=y;
 		while(i>=1&&j>=1){
 			i--;
 			j--;
-			if(board[i][j]==(-1*mod*3) || board[i][j]==(-1*mod*5) || board[i][j]==(-1*mod)){
+			if(board[i][j]==(mod*3) || board[i][j]==(mod*5) || board[i][j]==(mod)){
 				return false;
 			}
 		}
-
 		i=x; // Quadrant 4
 		j=y;
 		while(i<7&&j>=1){
 			i++;
 			j--;
-			if(board[i][j]==(-1*mod*3) || board[i][j]==(-1*mod*5) || board[i][j]==(-1*mod)){
+			if(board[i][j]==(mod*3) || board[i][j]==(mod*5) || board[i][j]==(mod)){
 				return false;
 			}
 		}
 
 		// Check along horizontal for rooks, queens, or king of opposite color. Can stop checking if hit another piece
+		// Left
+		i=x;
+		while(i>=1){
+			i--;
+			if(board[i][y]==(mod*4) || board[i][y]==(mod*5) || board[i][y]==(mod)){
+				return false;
+			}
+				
+		}
+		// Right
+		i=x;
+		while(i<7){
+			i++;
+			if(board[i][y]==(mod*4) || board[i][y]==(mod*5) || board[i][y]==(mod)){
+				return false;
+			}
+			
+		}
+		// Down
+		i=y;
+		while(i>=1){
+			i--;
+			if(board[x][i]==(mod*4) || board[x][i]==(mod*5) || board[x][i]==(mod)){
+				return false;
+			}
+			
+		}
+		// Up
+		i=y;
+		while(i<7){
+			i++;
+			if(board[x][i]==(mod*4) || board[x][i]==(mod*5) || board[x][i]==(mod)){
+				return false;
+			}
+			
+		}
+
 		// Check all possible knight squares.
 
 		return true;
@@ -195,7 +230,10 @@ public class Board{
 
 	public void move(XY a,XY b){
 		/*
-			For the actual engine, I probably won't be using this specific command, as it involves some unnecessary calculations such as checking. Whereas for my type A calculation and branching, I'm probably going to just have a list of every single possible move, and want to filter each move preemptively to make sure legal. I'll still need the pawn and castle stuff, but can ignore the checking legal moves, so I'll copy pasta this function with an f in front of it for faster, but assuming legal move (so move will be carried out properly).
+			For the actual engine, I probably won't be using this specific command, as it involves some unnecessary calculations such as checking. 
+			Whereas for my type A calculation and branching, I'm probably going to just have a list of every single possible move, and want to filter 
+			each move preemptively to make sure legal. I'll still need the pawn and castle stuff, but can ignore the checking legal moves, so I'll copy 
+			pasta this function with an f in front of it for faster, but assuming legal move (so move will be carried out properly).
 		 */
 		// Todo: implement few checks
 		// Make sure is a legal move
