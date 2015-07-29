@@ -32,12 +32,82 @@ public class King{
 		}
 		// later on, during the actual moving of pieces, check every time if pawn or king (cause special rules)
 		// if king, check if more than one move horizontally, if so, move rook as well
+		// Can't forget if checked
 
 		return moves;
 	}
+	public static boolean checkCastleQueen(boolean color, int[][] board){
+		if(color){ // white
+			if(board[3][0]!=0||board[2][0]!=0){
+				return false;
+			}
+
+			// Left left diagonal
+			if(board[1][1]==-3||board[1][1]==-5){
+				return false;
+			}else if(board [1][1]==0){
+				if(board[0][2]==-3||board[0][2]==-5){
+					return false;
+				}
+			}
+			// Right left diagonal
+			if(board[2][1]==-3||board[2][1]==-5){
+				return false;
+			}else if(board[2][1]==0){
+				if(board[1][2]==-3||board[1][2]==-5){
+					return false;
+				}else if(board[1][2]==0){
+					if(board[0][3]==-3||board[0][3]==-5){
+						return false;
+					}
+				}
+			}
+			// Right right diagonal
+			for(int i=0;i<4;i++){
+				if(board[4+i][1+i]==-3||board[4+i][1+i]==-5){
+					return false;
+				}else if(board[4+i][1+i]!=0){
+					break;
+				}
+			}
+			// Left right diagonal
+			for(int i=0;i<5;i++){
+				if(board[3+i][1+i]==-3||board[3+i][1+i]==-5){
+					return false;
+				}else if(board[3+i][1+i]!=0){
+					break;
+				}
+			}
+			// Right vertical
+			for(int i=1;i<=7;i++){
+				if(board[3][i]==-4||board[3][i]==-5){
+					return false;
+				}else if(board[3][i]!=0){
+					break;
+				}
+			}
+			// Left vertical
+			for(int i=1;i<=7;i++){
+				if(board[2][i]==-4||board[2][i]==-5){
+					return false;
+				}else if(board[2][i]!=0){
+					break;
+				}
+			}
+
+			// Knights
+			if(board[0][1]==-2||board[1][2]==-2||board[3][2]==-2||board[4][1]==-2||board[1][1]==-2||board[2][2]==-2||board[4][2]==-2||board[5][1]==-2){
+				return false;
+			}
+
+			return true;
+		}else{ // black
+
+		}
+	}
 	public static boolean checkCastleKing(boolean color, int[][] board){
 		if(color){ // white
-			if(board[5][0]!=0&&board[6][0]!=0){
+			if(board[5][0]!=0||board[6][0]!=0){
 				return false;
 			}
 			//if(diagonals and verticals are clear from bishop and rook or queen)
@@ -92,13 +162,13 @@ public class King{
 			}
 			return true;
 		}else{ // black
-			if(board[5][7]!=0&&board[6][7]!=0){
+			if(board[5][7]!=0||board[6][7]!=0){
 				return false;
 			}
 			//if(diagonals and verticals are clear from bishop and rook or queen)
 			// Left left diagonal
 			for(int i=0;i<5;i++){
-				if(board[4-i][6-i]==-3||board[4-i][6-i]==-5){
+				if(board[4-i][6-i]==3||board[4-i][6-i]==5){
 					return false;
 				}else if(board[4-i][6-i]!=0){
 					break;
@@ -106,7 +176,7 @@ public class King{
 			}
 			// Right left diagonal
 			for(int i=0;i<6;i++){
-				if(board[5-i][6-i]==-3||board[5-1][6-i]==-5){
+				if(board[5-i][6-i]==3||board[5-1][6-i]==5){
 					return false;
 				}else if(board[5-i][6-i]!=0){
 					break;
@@ -114,20 +184,20 @@ public class King{
 			}
 			// Left right diagonal
 			if(board[6][6]==0){
-				if(board[7][5]==-3||board[7][5]==-5){
+				if(board[7][5]==3||board[7][5]==5){
 					return false;
 				}
-			}else if(board[6][6]==-3||board[7][6]==-5){
+			}else if(board[6][6]==3||board[7][6]==5){
 				return false;
 			}
 			// Right right diagonal
-			if(board[7][6]==-3||board[7][6]==-5){
+			if(board[7][6]==3||board[7][6]==5){
 				return false;
 			}
 
 			// Left vertical
 			for(int i=1;i<=7;i++){
-				if(board[5][6-i]==-4||board[5][6-i]==-5){
+				if(board[5][6-i]==4||board[5][6-i]==5){
 					return false;
 				}else if(board[5][6-i]!=0){
 					break;
@@ -135,16 +205,17 @@ public class King{
 			}
 			// Right vertical
 			for(int i=1;i<=7;i++){
-				if(board[6][6-i]==-4||board[6][6-i]==-5){
+				if(board[6][6-i]==4||board[6][6-i]==5){
 					return false;
 				}else if(board[5][6-i]!=0){
 					break;
 				}
 			}
 
-			if(board[3][6]==-2||board[4][5]==-2||board[4][6]==-2||board[5][5]==-2||board[6][5]==-2||board[7][5]==-2||board[7][6]==-2){
+			if(board[3][6]==2||board[4][5]==2||board[4][6]==2||board[5][5]==2||board[6][5]==2||board[7][5]==2||board[7][6]==2){
 				return false;
 			}
+			
 			return true;
 		}
 		
