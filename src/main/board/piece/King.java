@@ -35,46 +35,115 @@ public class King{
 	}
 	public static boolean checkCastleKing(boolean color, int[][] board){
 		if(color){ // white
-			if(board[5][0]==0&&board[6][0]==0){
-				//if(diagonals and horizontals are clear from bishop and rook or queen){
-				// Left left diagonal
-				for(int i=0;i<5;i++){
-					if(board[4-i][i]==-3||board[4-i][i]==-5){
-						return false;
-					}else if(board[4-i][i]!=0){
-						break;
-					}
-				}
-				// Right left diagonal
-				for(int i=0;i<6;i++){
-					if(board[5-i][i]==-3||board[5-1][i]==-5){
-						return false;
-					}else if(board[5-i][i]!=0){
-						break;
-					}
-				}
-				// Left right diagonal
-				if(board[6][1]==0){
-					if(board[7][2]==-3||board[7][2]==-5){
-						lrDiag=false;
-					}
-				}else if(board[6][1]==-3||board[7][2]==-5){
-					lrDiag=false;
-				}
-				// Right right diagonal
-				if(board[7][1]==-3||board[7][1]==-5){
-					rrDiag=false;
-				}
-
-				if(llDiag&&rlDiag&&lrDiag&&rrDiag){
-
-					// if(knight not attacking intermittent piece (specific amounts of spots you need to check)){
-					// 	add move castle
-					// }
+			if(board[5][0]!=0&&board[6][0]!=0){
+				return false;
+			}
+			//if(diagonals and verticals are clear from bishop and rook or queen)
+			// Left left diagonal
+			for(int i=0;i<5;i++){
+				if(board[4-i][i]==-3||board[4-i][i]==-5){
+					return false;
+				}else if(board[4-i][i]!=0){
+					break;
 				}
 			}
-		}else{ // black
+			// Right left diagonal
+			for(int i=0;i<6;i++){
+				if(board[5-i][i]==-3||board[5-1][i]==-5){
+					return false;
+				}else if(board[5-i][i]!=0){
+					break;
+				} 
+			}
+			// Left right diagonal
+			if(board[6][1]==0){
+				if(board[7][2]==-3||board[7][2]==-5){
+					return false;
+				}
+			}else if(board[6][1]==-3||board[7][1]==-5){
+				return false;
+			}
+			// Right right diagonal
+			if(board[7][1]==-3||board[7][1]==-5){
+				return false;
+			}
 
+			// Left vertical
+			for(int i=1;i<=7;i++){
+				if(board[5][i]==-4||board[5][i]==-5){
+					return false;
+				}else if(board[5][i]!=0){
+					break;
+				}
+			}
+			// Right vertical
+			for(int i=1;i<=7;i++){
+				if(board[6][i]==-4||board[6][i]==-5){
+					return false;
+				}else if(board[5][i]!=0){
+					break;
+				}
+			}
+
+			if(board[3][1]==-2||board[4][2]==-2||board[4][1]==-2||board[5][2]==-2||board[6][2]==-2||board[7][2]==-2||board[7][1]==-2){
+				return false;
+			}
+			return true;
+		}else{ // black
+			if(board[5][7]!=0&&board[6][7]!=0){
+				return false;
+			}
+			//if(diagonals and verticals are clear from bishop and rook or queen)
+			// Left left diagonal
+			for(int i=0;i<5;i++){
+				if(board[4-i][6-i]==-3||board[4-i][6-i]==-5){
+					return false;
+				}else if(board[4-i][6-i]!=0){
+					break;
+				}
+			}
+			// Right left diagonal
+			for(int i=0;i<6;i++){
+				if(board[5-i][6-i]==-3||board[5-1][6-i]==-5){
+					return false;
+				}else if(board[5-i][6-i]!=0){
+					break;
+				} 
+			}
+			// Left right diagonal
+			if(board[6][6]==0){
+				if(board[7][5]==-3||board[7][5]==-5){
+					return false;
+				}
+			}else if(board[6][6]==-3||board[7][6]==-5){
+				return false;
+			}
+			// Right right diagonal
+			if(board[7][6]==-3||board[7][6]==-5){
+				return false;
+			}
+
+			// Left vertical
+			for(int i=1;i<=7;i++){
+				if(board[5][6-i]==-4||board[5][6-i]==-5){
+					return false;
+				}else if(board[5][6-i]!=0){
+					break;
+				}
+			}
+			// Right vertical
+			for(int i=1;i<=7;i++){
+				if(board[6][6-i]==-4||board[6][6-i]==-5){
+					return false;
+				}else if(board[5][6-i]!=0){
+					break;
+				}
+			}
+
+			if(board[3][6]==-2||board[4][5]==-2||board[4][6]==-2||board[5][5]==-2||board[6][5]==-2||board[7][5]==-2||board[7][6]==-2){
+				return false;
+			}
+			return true;
 		}
 		// later on, during the actual moving of pieces, check every time if pawn or king (cause special rules)
 		// if king, check if more than one move horizontally, if so, move rook as well
