@@ -30,6 +30,8 @@ public class King{
 				// add castling
 			}
 		}
+		// later on, during the actual moving of pieces, check every time if pawn or king (cause special rules)
+		// if king, check if more than one move horizontally, if so, move rook as well
 
 		return moves;
 	}
@@ -145,8 +147,7 @@ public class King{
 			}
 			return true;
 		}
-		// later on, during the actual moving of pieces, check every time if pawn or king (cause special rules)
-		// if king, check if more than one move horizontally, if so, move rook as well
+		
 
 	}
 }
