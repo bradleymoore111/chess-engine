@@ -22,12 +22,20 @@ public class King{
 		type = board[x][y];
 		if(kingSide){
 			if(checkCastleKing(board[x][y]>0,board)){
-				// add castling
+				if(board[x][y]>0){
+					moves.add(new XY(6,0));
+				}else{
+					moves.add(new XY(6,7));
+				}
 			}
 		}
 		if(queenSide){
 			if(checkCastleQueen(board[x][y]>0,board)){
-				// add castling
+				if(board[x][y]>0){
+					moves.add(new XY(2,0));
+				}else{
+					moves.add(new XY(2,7));
+				}
 			}
 		}
 		// later on, during the actual moving of pieces, check every time if pawn or king (cause special rules)
@@ -102,7 +110,69 @@ public class King{
 
 			return true;
 		}else{ // black
+			if(board[3][7]!=0||board[2][7]!=0){
+				return false;
+			}
 
+			// Left left diagonal
+			if(board[1][6]==-3||board[1][6]==-5){
+				return false;
+			}else if(board [1][6]==0){
+				if(board[0][5]==-3||board[0][5]==-5){
+					return false;
+				}
+			}
+			// Right left diagonal
+			if(board[2][6]==-3||board[2][6]==-5){
+				return false;
+			}else if(board[2][6]==0){
+				if(board[1][5]==-3||board[1][5]==-5){
+					return false;
+				}else if(board[1][5]==0){
+					if(board[0][4]==-3||board[0][4]==-5){
+						return false;
+					}
+				}
+			}
+			// Right right diagonal
+			for(int i=0;i<4;i++){
+				if(board[4+i][6-i]==-3||board[4+i][6-i]==-5){
+					return false;
+				}else if(board[4+i][6-i]!=0){
+					break;
+				}
+			}
+			// Left right diagonal
+			for(int i=0;i<5;i++){
+				if(board[3+i][6-i]==-3||board[3+i][6-i]==-5){
+					return false;
+				}else if(board[3+i][6-i]!=0){
+					break;
+				}
+			}
+			// Right vertical
+			for(int i=1;i<=7;i++){
+				if(board[3][7-i]==-4||board[3][7-i]==-5){
+					return false;
+				}else if(board[3][7-i]!=0){
+					break;
+				}
+			}
+			// Left vertical
+			for(int i=1;i<=7;i++){
+				if(board[2][7-i]==-4||board[2][7-i]==-5){
+					return false;
+				}else if(board[2][7-i]!=0){
+					break;
+				}
+			}
+
+			// Knights
+			if(board[0][6]==-2||board[1][5]==-2||board[3][5]==-2||board[4][6]==-2||board[1][6]==-2||board[2][5]==-2||board[4][5]==-2||board[5][6]==-2){
+				return false;
+			}
+
+			return true;
 		}
 	}
 	public static boolean checkCastleKing(boolean color, int[][] board){
@@ -160,6 +230,7 @@ public class King{
 			if(board[3][1]==-2||board[4][2]==-2||board[4][1]==-2||board[5][2]==-2||board[6][2]==-2||board[7][2]==-2||board[7][1]==-2){
 				return false;
 			}
+			
 			return true;
 		}else{ // black
 			if(board[5][7]!=0||board[6][7]!=0){
@@ -218,7 +289,5 @@ public class King{
 			
 			return true;
 		}
-		
-
 	}
 }
