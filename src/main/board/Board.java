@@ -79,7 +79,7 @@ public class Board{
 	public ArrayList<XY> getMoves(XY a){
 		int type = getPiece(a);
 
-		ArrayList<XY> m = new ArrayList<XY>();
+		ArrayList<XY> moves= new ArrayList<XY>();
 
 		switch(type){
 			case 0:
@@ -87,26 +87,26 @@ public class Board{
 			case -1:
 			case 1:
 				if(getPiece(a)>0){
-					m = King.getMoves(a,board,whiteKingCastle,whiteQueenCastle);
+					moves= King.getMoves(a,board,whiteKingCastle,whiteQueenCastle);
 				}else{
-					m = King.getMoves(a,board,blackKingCastle,blackQueenCastle);
+					moves= King.getMoves(a,board,blackKingCastle,blackQueenCastle);
 				}			
 				break;
 			case -2:
 			case 2:
-				m = Knight.getMoves(a);
+				moves= Knight.getMoves(a);
 				break;
 			case -3:
 			case 3:
-				m = Bishop.getMoves(a,board);
+				moves= Bishop.getMoves(a,board);
 				break;
 			case -4:
 			case 4:
-				m = Rook.getMoves(a,board);
+				moves= Rook.getMoves(a,board);
 				break;
 			case -5:
 			case 5:
-				m = Queen.getMoves(a,board);
+				moves= Queen.getMoves(a,board);
 				break;
 			// default:
 			// 	m = Pawn.getMoves(a,lastMoveEnPassantable,lastPawnEnPassantable);
@@ -116,18 +116,18 @@ public class Board{
 		// If bishop, rook, or queen, cannot move past pieces, ever. Those options will be filtered within each piece's case
 
 		// Universal rule, cannot move onto friendly pieces, but can move onto enemies
-		for(int i=0;i<m.size();i++){
-			int x=m.get(i).x;
-			int y=m.get(i).y;
+		for(int i=0;i<moves.size();i++){
+			int x=moves.get(i).x;
+			int y=moves.get(i).y;
 			if(board[x][y]==0){
 				continue;
 			}else if(board[x][y]*type>0){ // same color, therefore cannot move there
-				m.remove(i);
+				moves.remove(i);
 				i--;
 			}
 		}
 
-		return m;
+		return moves;
 	}
 
 	public boolean isChecked(boolean color){ // Is going through the entire board to find the king fast enough? As with this parameter I may have to.
