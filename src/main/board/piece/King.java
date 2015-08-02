@@ -245,10 +245,10 @@ public class King{
 				}
 			}
 			// Right left diagonal
-			for(int i=0;i<6;i++){
-				if(board[5-i][6-i]==3||board[5-1][6-i]==5){
+			for(int i=1;i<=6;i++){
+				if(board[6-i][7-i]==3||board[6-i][7-i]==5){
 					return false;
-				}else if(board[5-i][6-i]!=0){
+				}else if(board[6-i][7-i]!=0){
 					break;
 				} 
 			}

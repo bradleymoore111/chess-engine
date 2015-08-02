@@ -46,8 +46,8 @@ public class Board{
 		board[2][0] =  3;
 		board[3][0] =  5;
 		board[4][0] =  1;
-		board[5][0] =  0;
-		board[6][0] =  0;
+		board[5][0] =  3;
+		board[6][0] =  2;
 		board[7][0] =  4;
 
 		board[0][7] = -4;
