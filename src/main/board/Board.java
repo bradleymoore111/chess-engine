@@ -81,11 +81,10 @@ public class Board{
 
 		ArrayList<XY> m = new ArrayList<XY>();
 
-		if(type<0)
-			type = (int) (-1*type);
 		switch(type){
 			case 0:
 				break;
+			case -1:
 			case 1:
 				if(getPiece(a)>0){
 					m = King.getMoves(a,board,whiteKingCastle,whiteQueenCastle);
@@ -93,15 +92,19 @@ public class Board{
 					m = King.getMoves(a,board,blackKingCastle,blackQueenCastle);
 				}			
 				break;
+			case -2:
 			case 2:
 				m = Knight.getMoves(a);
 				break;
+			case -3:
 			case 3:
 				m = Bishop.getMoves(a,board);
 				break;
+			case -4:
 			case 4:
 				m = Rook.getMoves(a,board);
 				break;
+			case -5:
 			case 5:
 				m = Queen.getMoves(a,board);
 				break;

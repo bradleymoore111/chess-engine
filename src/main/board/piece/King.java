@@ -114,28 +114,28 @@ public class King{
 			}
 
 			// Left left diagonal
-			if(board[1][6]==-3||board[1][6]==-5){
+			if(board[1][6]==3||board[1][6]==5){
 				return false;
 			}else if(board [1][6]==0){
-				if(board[0][5]==-3||board[0][5]==-5){
+				if(board[0][5]==3||board[0][5]==5){
 					return false;
 				}
 			}
 			// Right left diagonal
-			if(board[2][6]==-3||board[2][6]==-5){
+			if(board[2][6]==3||board[2][6]==5){
 				return false;
 			}else if(board[2][6]==0){
-				if(board[1][5]==-3||board[1][5]==-5){
+				if(board[1][5]==3||board[1][5]==5){
 					return false;
 				}else if(board[1][5]==0){
-					if(board[0][4]==-3||board[0][4]==-5){
+					if(board[0][4]==3||board[0][4]==5){
 						return false;
 					}
 				}
 			}
 			// Right right diagonal
 			for(int i=0;i<4;i++){
-				if(board[4+i][6-i]==-3||board[4+i][6-i]==-5){
+				if(board[4+i][6-i]==3||board[4+i][6-i]==5){
 					return false;
 				}else if(board[4+i][6-i]!=0){
 					break;
@@ -143,7 +143,7 @@ public class King{
 			}
 			// Left right diagonal
 			for(int i=0;i<5;i++){
-				if(board[3+i][6-i]==-3||board[3+i][6-i]==-5){
+				if(board[3+i][6-i]==3||board[3+i][6-i]==5){
 					return false;
 				}else if(board[3+i][6-i]!=0){
 					break;
@@ -151,7 +151,7 @@ public class King{
 			}
 			// Right vertical
 			for(int i=1;i<=7;i++){
-				if(board[3][7-i]==-4||board[3][7-i]==-5){
+				if(board[3][7-i]==4||board[3][7-i]==5){
 					return false;
 				}else if(board[3][7-i]!=0){
 					break;
@@ -159,7 +159,7 @@ public class King{
 			}
 			// Left vertical
 			for(int i=1;i<=7;i++){
-				if(board[2][7-i]==-4||board[2][7-i]==-5){
+				if(board[2][7-i]==4||board[2][7-i]==5){
 					return false;
 				}else if(board[2][7-i]!=0){
 					break;
