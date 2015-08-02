@@ -19,10 +19,10 @@ public class King{
 		// Gotta add can't do it if currently checked
 
 		// pseudocode
-		type = board[x][y];
+		int type = board[x][y];
 		if(kingSide){
-			if(checkCastleKing(board[x][y]>0,board)){
-				if(board[x][y]>0){
+			if(checkCastleKing(type>0,board)){
+				if(type>0){
 					moves.add(new XY(6,0));
 				}else{
 					moves.add(new XY(6,7));
@@ -30,17 +30,16 @@ public class King{
 			}
 		}
 		if(queenSide){
-			if(checkCastleQueen(board[x][y]>0,board)){
-				if(board[x][y]>0){
+			if(checkCastleQueen(type>0,board)){
+				if(type>0){
 					moves.add(new XY(2,0));
 				}else{
 					moves.add(new XY(2,7));
 				}
 			}
 		}
-		// later on, during the actual moving of pieces, check every time if pawn or king (cause special rules)
-		// if king, check if more than one move horizontally, if so, move rook as well
-		// Can't forget if checked
+		// Gotta add pawns to the diagonals as well. I know it's rare, but it's an existent possibility
+		// Note for opening books, castle in them if possible. WAAAAAAAAAAAAAAAAAY less calculation will be needed (like a 10% margin at least)
 
 		return moves;
 	}
@@ -190,10 +189,10 @@ public class King{
 				}
 			}
 			// Right left diagonal
-			for(int i=0;i<6;i++){
-				if(board[5-i][i]==-3||board[5-1][i]==-5){
+			for(int i=1;i<=6;i++){
+				if(board[6-i][i]==-3||board[6-1][i]==-5){
 					return false;
-				}else if(board[5-i][i]!=0){
+				}else if(board[6-i][i]!=0){
 					break;
 				} 
 			}

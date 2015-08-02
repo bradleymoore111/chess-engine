@@ -46,8 +46,8 @@ public class Board{
 		board[2][0] =  3;
 		board[3][0] =  5;
 		board[4][0] =  1;
-		board[5][0] =  3;
-		board[6][0] =  2;
+		board[5][0] =  0;
+		board[6][0] =  0;
 		board[7][0] =  4;
 
 		board[0][7] = -4;
@@ -239,11 +239,14 @@ public class Board{
 		// Make sure is a legal move
 		// 	   Move is within that piece's move list (getMoves of that piece)
 		//     Doesn't result in check after move (handles both pins, and not dealing with present check)
+		// 	   This is the stuff that will be omitted
 		// If pawn move, check if en passantable needs to be toggled
 		// If not pawn move, turn off en passantable (both variables)
 		// If king, check if it's the castle. If so, move rook. If not, turn off that king's castling privileges 
 		// If rook, turn off that side castle privileges
 		// 
+		board[b.x][b.y] = board[a.x][a.y]; // I'm kinda lazy, so for now
+		board[a.x][a.y] = 0;
 	}
 
 	public String toString(){
