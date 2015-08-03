@@ -3,17 +3,17 @@ package main.board;
 import java.util.ArrayList;
 import main.board.piece.*;
 public class Board{
-	boolean sideToMove;
+	public boolean sideToMove;
 	
-	boolean whiteKingCastle;
-	boolean whiteQueenCastle;
-	boolean blackKingCastle;
-	boolean blackQueenCastle;
+	public boolean whiteKingCastle;
+	public boolean whiteQueenCastle;
+	public boolean blackKingCastle;
+	public boolean blackQueenCastle;
 
-	boolean lastMoveEnPassantable;
-	int lastPawnEnPassantable;
+	public boolean lastMoveEnPassantable;
+	public int lastPawnEnPassantable; // Which file can be captured via en passant
 
-	int movesSincePieceLost; // 50-move rule
+	public int movesSincePieceLost; // 50-move rule
 
 	/* 	Each piece will be represented by a number
 		0 - empty tile
@@ -30,7 +30,7 @@ public class Board{
 		[3][0] would correspond to white queen
 		[4][7] would correspond to black king
 	 */
-	int[][] board;
+	public int[][] board;
 
 	public Board(){
 		initialize(); //todo;
@@ -108,9 +108,12 @@ public class Board{
 			case 5:
 				moves= Queen.getMoves(a,board);
 				break;
-			// default:
-			// 	m = Pawn.getMoves(a,lastMoveEnPassantable,lastPawnEnPassantable);
-			//	break;
+			case -6:
+				moves= Pawn.getMovesBlack(a,board,lastMoveEnPassantable,lastPawnEnPassantable);
+				break;
+			case 6:
+				moves= Pawn.getMovesWhite(a,board,lastMoveEnPassantable,lastPawnEnPassantable);
+				break;		
 		}
 
 		// If bishop, rook, or queen, cannot move past pieces, ever. Those options will be filtered within each piece's case
@@ -244,10 +247,12 @@ public class Board{
 		//     Doesn't result in check after move (handles both pins, and not dealing with present check)
 		// 	   This is the stuff that will be omitted
 		// If pawn move, check if en passantable needs to be toggled
-		// If not pawn move, turn off en passantable (both variables)
+		// 	   Check if moving onto final row, if so, turn into queen
+		//     Check if En Passant is actually happening (if enpassantable, if pawn taking on file, just check if en passant's happening)
+		// If not pawn double jump, turn off en passantable (both variables)
 		// If king, check if it's the castle. If so, move rook. If not, turn off that king's castling privileges 
 		// If rook, turn off that side castle privileges
-		// 
+
 		board[b.x][b.y] = board[a.x][a.y]; // I'm kinda lazy, so for now
 		board[a.x][a.y] = 0;
 	}

@@ -3,6 +3,7 @@ package test;
 import java.util.Scanner;
 import main.board.Board;
 import main.board.piece.*;
+import main.evaluation.Evaluation;
 public class Main{
 	public static void main(String[] args) {
 		Board board = new Board();
