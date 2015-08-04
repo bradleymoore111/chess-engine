@@ -39,26 +39,24 @@ public class Board{
 	public void initialize(){
 		board = new int[8][8];
 		
+		int[][] startingPostitions = {
+			{-4,-2,-3,-5,-1,-3,-2,-4},
+			{-6,-6,-6,-6,-6,-6,-6,-6},
+			{ 0, 0, 0, 0, 0, 0, 0, 0},
+			{ 0, 0, 0, 0, 0, 0, 0, 0},
+			{ 0, 0, 0, 0, 0, 0, 0, 0},
+			{ 0, 0, 0, 0, 0, 0, 0, 0},
+			{ 6, 6, 6, 6, 6, 6, 6, 6},
+			{ 4, 2, 3, 5, 1, 3, 2, 4}
+		};
+
 		// Initializing the pieces in order
 		// Temporary, later will have pieces be loaded from a preset array (to allow gamemodes like horde and 960 to be more easily generated)
-		board[0][0] =  4;
-		board[1][0] =  2;
-		board[2][0] =  3;
-		board[3][0] =  5;
-		board[4][0] =  1;
-		board[5][0] =  3;
-		board[6][0] =  2;
-		board[7][0] =  4;
-
-		board[0][7] = -4;
-		board[1][7] = -2;
-		board[2][7] = -3;
-		board[3][7] = -5;
-		board[4][7] = -1;
-		board[5][7] = -3;
-		board[6][7] = -2;
-		board[7][7] = -4;
-
+		for(int i=0;i<8;i++){
+			for(int j=0;j<8;j++){
+				board[j][i]=startingPostitions[7-i][j];
+			}
+		}
 		sideToMove = true;
 		whiteKingCastle = true;
 		whiteQueenCastle = true;
@@ -265,9 +263,9 @@ public class Board{
 			s+="\n|";
 			for(int j=0;j<8;j++){
 				if((i+j)%2 == 0){
-					s+= " " + ((board[j][i]>=0)?" ":"") + board[j][i] + "  ";
+					s+= " " + ((board[j][i]>=0)?" ":"") + ((board[j][i]==0)?" ":pieceToString(board[j][i])) + "  ";
 				}else{
-					s+= ":" + ((board[j][i]>=0)?":":"") + board[j][i] + "::";
+					s+= ":" + ((board[j][i]>=0)?":":"") + ((board[j][i]==0)?":":pieceToString(board[j][i])) + "::";
 				}
 				s+= "|";
 			}
@@ -275,5 +273,34 @@ public class Board{
 		}
 		s+="\n   0     1     2     3     4     5     6     7";
 		return s;
+	}
+	public String pieceToString(int type){
+		switch(type){
+			case -1:
+				return "-k";
+			case 1:
+				return "K";
+			case -2:
+				return "-n";
+			case 2:
+				return "N";
+			case -3:
+				return "-b";
+			case 3:
+				return "B";
+			case -4:
+				return "-r";
+			case 4:
+				return "R";
+			case -5:
+				return "-q";
+			case 5:
+				return "Q";
+			case -6:
+				return "-p";
+			case 6:
+				return "P";
+		}
+		return "P";
 	}
 }
