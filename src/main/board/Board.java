@@ -236,10 +236,9 @@ public class Board{
 
 	public void move(XY a,XY b){
 		/*
-			For the actual engine, I probably won't be using this specific command, as it involves some unnecessary calculations such as checking. 
-			Whereas for my type A calculation and branching, I'm probably going to just have a list of every single possible move, and want to filter 
-			each move preemptively to make sure legal. I'll still need the pawn and castle stuff, but can ignore the checking legal moves, so I'll copy 
-			pasta this function with an f in front of it for faster, but assuming legal move (so move will be carried out properly).
+			For the actual engine, I probably won't be using this specific command, as it involves some unnecessary calculations such as checking if king is checked. Whereas for my type A calculation and branching, I'm probably going to just have a list of every single possible move, and want to filter each move preemptively to make sure legal. I'll still need the pawn and castle stuff, but can ignore the checking legal moves, so I'll copy pasta this function with an f in front of it for faster, but assuming legal move (so move will be carried out properly).
+
+			Basically everything that isn't under "Make sure is a legal move" will be kept
 		 */
 		// Todo: implement few checks
 		// Make sure is a legal move

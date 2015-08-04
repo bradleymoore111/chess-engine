@@ -22,7 +22,7 @@ public class Pawn{
 		// Dear god.
 
 		if(lastMoveEnPassantable){
-			if((x+1==lastPawnEnPassantable||x-1==lastPawnEnPassantable)&&y==4){
+			if((x+1==lastPawnEnPassantable||x-1==lastPawnEnPassantable)&&y==4){ // If the file is one to the left or one to the right, and the pawn is at the appropriate row
 				moves.add(new XY(lastPawnEnPassantable,5));
 			}
 		}

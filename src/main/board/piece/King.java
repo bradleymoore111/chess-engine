@@ -45,12 +45,12 @@ public class King{
 	}
 	public static boolean checkCastleQueen(boolean color, int[][] board){
 		if(color){ // white
-			if(board[3][0]!=0||board[2][0]!=0){
+			if(board[3][0]!=0||board[2][0]!=0||board[1][0]!=0){
 				return false;
 			}
 
 			// Left left diagonal
-			if(board[1][1]==-3||board[1][1]==-5){
+			if(board[1][1]==-3||board[1][1]==-5||board[1][1]==-6){
 				return false;
 			}else if(board [1][1]==0){
 				if(board[0][2]==-3||board[0][2]==-5){
@@ -58,7 +58,7 @@ public class King{
 				}
 			}
 			// Right left diagonal
-			if(board[2][1]==-3||board[2][1]==-5){
+			if(board[2][1]==-3||board[2][1]==-5||board[2][1]==-6){
 				return false;
 			}else if(board[2][1]==0){
 				if(board[1][2]==-3||board[1][2]==-5){
@@ -70,6 +70,9 @@ public class King{
 				}
 			}
 			// Right right diagonal
+			if(board[4][1]==-6){
+				return false;
+			}
 			for(int i=0;i<4;i++){
 				if(board[4+i][1+i]==-3||board[4+i][1+i]==-5){
 					return false;
@@ -78,6 +81,9 @@ public class King{
 				}
 			}
 			// Left right diagonal
+			if(board[3][1]==-6){
+				return false;
+			}
 			for(int i=0;i<5;i++){
 				if(board[3+i][1+i]==-3||board[3+i][1+i]==-5){
 					return false;
@@ -109,12 +115,12 @@ public class King{
 
 			return true;
 		}else{ // black
-			if(board[3][7]!=0||board[2][7]!=0){
+			if(board[3][7]!=0||board[2][7]!=0||board[1][7]!=0){
 				return false;
 			}
 
 			// Left left diagonal
-			if(board[1][6]==3||board[1][6]==5){
+			if(board[1][6]==3||board[1][6]==5||board[1][6]==6){
 				return false;
 			}else if(board [1][6]==0){
 				if(board[0][5]==3||board[0][5]==5){
@@ -122,7 +128,7 @@ public class King{
 				}
 			}
 			// Right left diagonal
-			if(board[2][6]==3||board[2][6]==5){
+			if(board[2][6]==3||board[2][6]==5||board[2][6]==6){
 				return false;
 			}else if(board[2][6]==0){
 				if(board[1][5]==3||board[1][5]==5){
@@ -134,6 +140,9 @@ public class King{
 				}
 			}
 			// Right right diagonal
+			if(board[4][6]==6){
+				return false;
+			}
 			for(int i=0;i<4;i++){
 				if(board[4+i][6-i]==3||board[4+i][6-i]==5){
 					return false;
@@ -142,6 +151,9 @@ public class King{
 				}
 			}
 			// Left right diagonal
+			if(board[3][6]==6){
+				return false;
+			}
 			for(int i=0;i<5;i++){
 				if(board[3+i][6-i]==3||board[3+i][6-i]==5){
 					return false;
@@ -181,16 +193,22 @@ public class King{
 			}
 			//if(diagonals and verticals are clear from bishop and rook or queen)
 			// Left left diagonal
-			for(int i=0;i<5;i++){
-				if(board[4-i][i]==-3||board[4-i][i]==-5){
+			if(board[4][1]==-6){
+				return false;
+			}
+			for(int i=1;i<=6;i++){
+				if(board[5-i][i]==-3||board[5-i][i]==-5){
 					return false;
-				}else if(board[4-i][i]!=0){
+				}else if(board[5-i][i]!=0){
 					break;
 				}
 			}
 			// Right left diagonal
+			if(board[5][1]==-6){
+				return false;
+			}
 			for(int i=1;i<=6;i++){
-				if(board[6-i][i]==-3||board[6-1][i]==-5){
+				if(board[6-i][i]==-3||board[6-i][i]==-5){
 					return false;
 				}else if(board[6-i][i]!=0){
 					break;
@@ -198,14 +216,14 @@ public class King{
 			}
 			// Left right diagonal
 			if(board[6][1]==0){
-				if(board[7][2]==-3||board[7][2]==-5){
+				if(board[7][2]==-3||board[7][2]==-5||board[7][2]==-6){
 					return false;
 				}
-			}else if(board[6][1]==-3||board[7][1]==-5){
+			}else if(board[6][1]==-3||board[6][1]==-5||board[6][1]==-6){
 				return false;
 			}
 			// Right right diagonal
-			if(board[7][1]==-3||board[7][1]==-5){
+			if(board[7][1]==-3||board[7][1]==-5||board[7][1]==-6){
 				return false;
 			}
 
@@ -237,6 +255,9 @@ public class King{
 			}
 			//if(diagonals and verticals are clear from bishop and rook or queen)
 			// Left left diagonal
+			if(board[4][6]==6){
+				return false;
+			}
 			for(int i=0;i<5;i++){
 				if(board[4-i][6-i]==3||board[4-i][6-i]==5){
 					return false;
@@ -245,6 +266,9 @@ public class King{
 				}
 			}
 			// Right left diagonal
+			if(board[5][6]==6){
+				return false;
+			}
 			for(int i=1;i<=6;i++){
 				if(board[6-i][7-i]==3||board[6-i][7-i]==5){
 					return false;
@@ -257,11 +281,11 @@ public class King{
 				if(board[7][5]==3||board[7][5]==5){
 					return false;
 				}
-			}else if(board[6][6]==3||board[7][6]==5){
+			}else if(board[6][6]==3||board[6][6]==5||board[6][6]==6){
 				return false;
 			}
 			// Right right diagonal
-			if(board[7][6]==3||board[7][6]==5){
+			if(board[7][6]==3||board[7][6]==5||board[7][6]==6){
 				return false;
 			}
 
