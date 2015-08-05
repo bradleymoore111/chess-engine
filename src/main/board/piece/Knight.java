@@ -11,8 +11,9 @@ public class Knight{
 
 		for(int i=0;i<locs.length;i++){
 			XY p = locs[i];
-			if((x+p.x)>=0&&(x+p.x<8)&&(y+p.y>=0)&&(y+p.y<8))
+			if((x+p.x)>=0&&(x+p.x<8)&&(y+p.y>=0)&&(y+p.y<8)){
 				moves.add(new XY(x+p.x,y+p.y));
+			}
 		}
 
 		return moves;

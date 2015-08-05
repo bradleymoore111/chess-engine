@@ -14,8 +14,8 @@ public class Main{
 
 		while(true){
 			System.out.println(board.toString());
-			System.out.println(message);
-			System.out.println("To move a piece, 'move' <x> <y> <x> <y>.\nTo get a pieces moves, 'list' <x> <y>");
+			System.out.println("Previous command return message:\n"+message+"\n\n");
+			System.out.println("To move a piece, 'move' <x> <y> <x> <y>.\nTo get a pieces moves, 'list' <x> <y>\nTo see if king is 'check'ed, enter a color (true or false)");
 			String choice = a.next();
 			if(choice.equalsIgnoreCase("move")){
 				int x=a.nextInt();
@@ -28,7 +28,11 @@ public class Main{
 				int x=a.nextInt();
 				int y=a.nextInt();
 				message = board.getMoves(new XY(x,y)).toString();
-			}			
+			}else if(choice.equalsIgnoreCase("check")){
+				long begin = System.nanoTime();
+				boolean color=a.nextBoolean();
+				message = ""+board.isChecked(color)+" in "+(System.nanoTime()-begin)/1000+" microseconds";
+			}
 		}
 	}
 }

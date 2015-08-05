@@ -148,88 +148,180 @@ public class Board{
 
 		mod*=-1;
 		// Check along diagonals for bishops, pawns, queens, or king of opposite color. Can stop checking if hits friendly piece, rook, or knight
-		// STILL NEED TO FIGURE OUT PAWNS PRETTY BADLY LIKE SERIOUSLY I THOUGHT CASTLING WAS ANNOYING.
 		// 2 | 1
 		// -----
 		// 3 | 4
-		int i=x; // Quadrant 1
+
+		// Quadrant 1
+		int i=x; 
 		int j=y; // (x,y) is now (i,j)
+		if(i+1<8&&j+1<8){
+			if(board[i+1][j+1]==mod){
+				return true;
+			}
+			if(color){
+				if(board[i+1][j+1]==-6){
+					return true;
+				}
+			}
+		}
 		while(i<7&&j<7){
 			i++;
 			j++;
-			if(board[i][j]==(mod*3) || board[i][j]==(mod*5) || board[i][j]==(mod)){
-				return false;
+			if(board[i][j]==(mod*3) || board[i][j]==(mod*5)){
+				return true;
+			}else if(board[i][j]!=0){
+				break;
 			}
 		}
-		i=x; // Quadrant 2
+
+		// Quadrant 2
+		i=x; 
 		j=y;
+		if(i-1>-1&&j+1<8){
+			if(board[i-1][j+1]==mod){
+				return true;
+			}
+			if(color){
+				if(board[i-1][j+1]==-6){
+					return true;
+				}
+			}
+		}
 		while(i>=1&&j<7){
 			i--;
 			j++;
-			if(board[i][j]==(mod*3) || board[i][j]==(mod*5) || board[i][j]==(mod)){
-				return false;
+			if(board[i][j]==(mod*3) || board[i][j]==(mod*5)){
+				return true;
+			}else if(board[i][j]!=0){
+				break;
 			}
 		}
-		i=x; // Quadrant 3
+
+		// Quadrant 3
+		i=x; 
 		j=y;
+		if(i+1<8&&j-1>-1){
+			if(board[i+1][j-1]==mod){
+				return true;
+			}
+			if(!color){
+				if(board[i+1][j-1]==6){
+					return true;
+				}
+			}
+		}
 		while(i>=1&&j>=1){
 			i--;
 			j--;
-			if(board[i][j]==(mod*3) || board[i][j]==(mod*5) || board[i][j]==(mod)){
-				return false;
+			if(board[i][j]==(mod*3) || board[i][j]==(mod*5)){
+				return true;
+			}else if(board[i][j]!=0){
+				break;
 			}
 		}
-		i=x; // Quadrant 4
+
+		// Quadrant 4
+		i=x; 
 		j=y;
+		if(i-1>-1&&j-1>-1){
+			if(board[i-1][j-1]==mod){
+				return true;
+			}
+			if(!color){
+				if(board[i-1][j-1]==6){
+					return true;
+				}
+			}
+		}
 		while(i<7&&j>=1){
 			i++;
 			j--;
-			if(board[i][j]==(mod*3) || board[i][j]==(mod*5) || board[i][j]==(mod)){
-				return false;
+			if(board[i][j]==(mod*3) || board[i][j]==(mod*5)){
+				return true;
+			}else if(board[i][j]!=0){
+				break;
 			}
 		}
 
 		// Check along horizontal for rooks, queens, or king of opposite color. Can stop checking if hit another piece
+
 		// Left
 		i=x;
+		if(i-1>-1){
+			if(board[i-1][y]==mod){
+				return true;
+			}
+		}
 		while(i>=1){
 			i--;
-			if(board[i][y]==(mod*4) || board[i][y]==(mod*5) || board[i][y]==(mod)){
-				return false;
-			}
-				
+			if(board[i][y]==(mod*4) || board[i][y]==(mod*5)){
+				return true;
+			}else if(board[i][j]!=0){
+				break;
+			}				
 		}
+
 		// Right
 		i=x;
+		if(i+1<8){
+			if(board[i+1][y]==mod){
+				return true;
+			}
+		}
 		while(i<7){
 			i++;
-			if(board[i][y]==(mod*4) || board[i][y]==(mod*5) || board[i][y]==(mod)){
-				return false;
-			}
-			
+			if(board[i][y]==(mod*4) || board[i][y]==(mod*5)){
+				return true;
+			}else if(board[i][j]!=0){
+				break;
+			}			
 		}
+
 		// Down
 		i=y;
+		if(i-1>-1){
+			if(board[x][i-1]==mod){
+				return true;
+			}
+		}
 		while(i>=1){
 			i--;
-			if(board[x][i]==(mod*4) || board[x][i]==(mod*5) || board[x][i]==(mod)){
-				return false;
-			}
-			
+			if(board[x][i]==(mod*4) || board[x][i]==(mod*5)){
+				return true;
+			}else if(board[i][j]!=0){
+				break;
+			}			
 		}
+
 		// Up
 		i=y;
+		if(i+1<8){
+			if(board[x][i+1]==mod){
+				return true;
+			}
+		}
 		while(i<7){
 			i++;
-			if(board[x][i]==(mod*4) || board[x][i]==(mod*5) || board[x][i]==(mod)){
-				return false;
-			}
-			
+			if(board[x][i]==(mod*4) || board[x][i]==(mod*5)){
+				return true;
+			}else if(board[i][j]!=0){
+				break;
+			}			
 		}
 
 		// Check all possible knight squares.
+		XY[] knightLocs = {new XY(-2,1),new XY(-1,2),new XY(1,2),new XY(2,1),new XY(2,-1),new XY(1,-2),new XY(-1,-2),new XY(-2,-1)};
+		for(int n=0;n<knightLocs.length;n++){
+			XY p = knightLocs[n];
+			if(!(x+p.x>7||x+p.x<0)&&!(y+p.y>7||y+p.y<0)){
+				if(board[x+p.x][y+p.y]==mod*2){
+					return true;
+				}
+			}
+		}
 
-		return true;
+		return false;
 	}
 
 	public void move(XY a,XY b){
