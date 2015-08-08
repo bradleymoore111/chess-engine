@@ -32,8 +32,14 @@ public class Board{
 	 */
 	public int[][] board;
 
+	public String message;
+
 	public Board(){
 		initialize(); //todo;
+	}
+
+	public String getMessage(){
+		return message;
 	}
 	
 	public void initialize(){
@@ -157,10 +163,12 @@ public class Board{
 		int j=y; // (x,y) is now (i,j)
 		if(i+1<8&&j+1<8){
 			if(board[i+1][j+1]==mod){
+				message = "Checked by a diagonal1";
 				return true;
 			}
 			if(color){
 				if(board[i+1][j+1]==-6){
+					message = "Checked by a diagonal2";
 					return true;
 				}
 			}
@@ -169,6 +177,7 @@ public class Board{
 			i++;
 			j++;
 			if(board[i][j]==(mod*3) || board[i][j]==(mod*5)){
+				message = "Checked by a diagonal3";
 				return true;
 			}else if(board[i][j]!=0){
 				break;
@@ -180,10 +189,12 @@ public class Board{
 		j=y;
 		if(i-1>-1&&j+1<8){
 			if(board[i-1][j+1]==mod){
+				message = "Checked by a diagonal4";
 				return true;
 			}
 			if(color){
 				if(board[i-1][j+1]==-6){
+					message = "Checked by a diagonal5";
 					return true;
 				}
 			}
@@ -192,6 +203,7 @@ public class Board{
 			i--;
 			j++;
 			if(board[i][j]==(mod*3) || board[i][j]==(mod*5)){
+				message = "Checked by a diagonal6";
 				return true;
 			}else if(board[i][j]!=0){
 				break;
@@ -203,10 +215,12 @@ public class Board{
 		j=y;
 		if(i+1<8&&j-1>-1){
 			if(board[i+1][j-1]==mod){
+				message = "Checked by a diagonal7";
 				return true;
 			}
 			if(!color){
 				if(board[i+1][j-1]==6){
+					message = "Checked by a diagonal8";
 					return true;
 				}
 			}
@@ -215,6 +229,7 @@ public class Board{
 			i--;
 			j--;
 			if(board[i][j]==(mod*3) || board[i][j]==(mod*5)){
+				message = "Checked by a diagonal9";
 				return true;
 			}else if(board[i][j]!=0){
 				break;
@@ -226,10 +241,12 @@ public class Board{
 		j=y;
 		if(i-1>-1&&j-1>-1){
 			if(board[i-1][j-1]==mod){
+				message = "Checked by a diagonal10";
 				return true;
 			}
 			if(!color){
 				if(board[i-1][j-1]==6){
+					message = "Checked by a diagonal11";
 					return true;
 				}
 			}
@@ -238,6 +255,7 @@ public class Board{
 			i++;
 			j--;
 			if(board[i][j]==(mod*3) || board[i][j]==(mod*5)){
+				message = "Checked by a diagonal12";
 				return true;
 			}else if(board[i][j]!=0){
 				break;
@@ -250,14 +268,16 @@ public class Board{
 		i=x;
 		if(i-1>-1){
 			if(board[i-1][y]==mod){
+				message = "checked horizontally1";
 				return true;
 			}
 		}
 		while(i>=1){
 			i--;
 			if(board[i][y]==(mod*4) || board[i][y]==(mod*5)){
+				message = "checked horizontally2";
 				return true;
-			}else if(board[i][j]!=0){
+			}else if(board[i][y]!=0){
 				break;
 			}				
 		}
@@ -266,14 +286,16 @@ public class Board{
 		i=x;
 		if(i+1<8){
 			if(board[i+1][y]==mod){
+				message = "checked horizontally3";
 				return true;
 			}
 		}
 		while(i<7){
 			i++;
 			if(board[i][y]==(mod*4) || board[i][y]==(mod*5)){
+				message = "checked horizontally4";
 				return true;
-			}else if(board[i][j]!=0){
+			}else if(board[i][y]!=0){
 				break;
 			}			
 		}
@@ -282,14 +304,16 @@ public class Board{
 		i=y;
 		if(i-1>-1){
 			if(board[x][i-1]==mod){
+				message = "checked horizontally5";
 				return true;
 			}
 		}
 		while(i>=1){
 			i--;
 			if(board[x][i]==(mod*4) || board[x][i]==(mod*5)){
+				message = "checked horizontally6";
 				return true;
-			}else if(board[i][j]!=0){
+			}else if(board[x][i]!=0){
 				break;
 			}			
 		}
@@ -298,14 +322,16 @@ public class Board{
 		i=y;
 		if(i+1<8){
 			if(board[x][i+1]==mod){
+				message = "checked horizontally7";
 				return true;
 			}
 		}
 		while(i<7){
 			i++;
 			if(board[x][i]==(mod*4) || board[x][i]==(mod*5)){
+				message = "checked horizontally8";
 				return true;
-			}else if(board[i][j]!=0){
+			}else if(board[x][i]!=0){
 				break;
 			}			
 		}
@@ -316,6 +342,7 @@ public class Board{
 			XY p = knightLocs[n];
 			if(!(x+p.x>7||x+p.x<0)&&!(y+p.y>7||y+p.y<0)){
 				if(board[x+p.x][y+p.y]==mod*2){
+					message = "checked by knight";
 					return true;
 				}
 			}
@@ -325,6 +352,7 @@ public class Board{
 	}
 
 	public void move(XY a,XY b){
+		// message = "HURR DURR WHY AIN'T THIS WORKING";
 		int type=getPiece(a);
 		/*
 			For the actual engine, I probably won't be using this specific command, as it involves some unnecessary calculations such as checking if king is checked. Whereas for my type A calculation and branching, I'm probably going to just have a list of every single possible move, and want to filter each move preemptively to make sure legal. I'll still need the pawn and castle stuff, but can ignore the checking legal moves, so I'll copy pasta this function with an f in front of it for faster, but assuming legal move (so move will be carried out properly).
@@ -336,22 +364,26 @@ public class Board{
 		// 	   Move is within that piece's move list (getMoves of that piece)		
 		ArrayList<XY> possibleMoves = getMoves(a);
 		if(possibleMoves.size()==0){
-			message = "Piece cannot move there";
+			message = "Piece cannot move there1";
 			return; 
 		}
 		for(int i=0;i<possibleMoves.size();i++){
 			if(possibleMoves.get(i).equals(b)){
 				break;
 			}else if(i==possibleMoves.size()-1){
-				message = "Piece cannot move there";
+				message = "Piece cannot move there2";
 				return;
 			}
 		}
 		//     Doesn't result in check after move (handles both pins, and not dealing with present check)
 		int oldPiece = getPiece(b);
 		board[b.x][b.y] = type;
-		if(isChecked(getPiece(a)>0)){
+		board[a.x][a.y] = 0;
+		message = "Moved piece";
+		if(isChecked(type>0)){
 			board[b.x][b.y] = oldPiece;
+			board[a.x][a.y] = type;
+			message = "Move results in check";
 			return;
 		}
 		board[a.x][a.y] = 0; // Technically now the move has been made and is considered legal. There's nothing else that will make it illegal. I think.
@@ -359,6 +391,7 @@ public class Board{
 		if(type==6){ // white pawn
 		// 		Check if moving onto final row, if so, turn into queen
 			if(b.y==7){
+				message = "Upgrading passed pawn";
 				board[b.x][b.y] = 5; // Turn it into a queen
 			}
 		//  	Check if En Passant is actually happening (if enpassantable, if pawn taking on file, just check if en passant's happening)
@@ -387,9 +420,11 @@ public class Board{
 		if(type==1){ // white king
 			if(a.x==4){
 				if(b.x==6){ // castling abilities are already checked for in King.getMoves
+					message = "Castled kingside";
 					board[5][0] = 4;
 					board[7][0] = 0;
 				}else if(b.x==2){ // queenside castling
+					message = "Castled queenside";
 					board[3][0] = 4;
 					board[0][0] = 0;
 				}else{ // neither, just moving
@@ -400,9 +435,11 @@ public class Board{
 		}else if(type==-2){ // black king
 			if(a.x==4){
 				if(b.x==6){ // castling abilities are already checked for in King.getMoves
+					message = "Castled kingside";
 					board[5][7] = -4;
 					board[7][7] = 0;
 				}else if(b.x==2){ // queenside castling
+					message = "Castled queenside";
 					board[3][7] = -4;
 					board[0][7] = 0;
 				}else{

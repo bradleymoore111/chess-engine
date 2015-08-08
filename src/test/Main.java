@@ -24,6 +24,7 @@ public class Main{
 				x=a.nextInt();
 				y=a.nextInt();
 				board.move(o,new XY(x,y));
+				message = board.getMessage();
 			}else if(choice.equalsIgnoreCase("list")){
 				int x=a.nextInt();
 				int y=a.nextInt();
@@ -32,6 +33,7 @@ public class Main{
 				long begin = System.nanoTime();
 				boolean color=a.nextBoolean();
 				message = ""+board.isChecked(color)+" in "+(System.nanoTime()-begin)/1000+" microseconds";
+				message += "\n"+board.getMessage();
 			}
 		}
 	}

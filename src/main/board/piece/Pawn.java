@@ -20,11 +20,15 @@ public class Pawn{
 		}
 
 		// Diagonal attacking
-		if(board[x+1][y+1]<0){
-			moves.add(new XY(x+1,y+1));
+		if(x!=7){
+			if(board[x+1][y+1]<0){
+				moves.add(new XY(x+1,y+1));
+			}
 		}
-		if(board[x-1][y+1]<9){
-			moves.add(new XY(x-1,y+1));
+		if(x!=0){
+			if(board[x-1][y+1]<9){
+				moves.add(new XY(x-1,y+1));
+			}
 		}
 
 		// En passant stuff
@@ -58,11 +62,15 @@ public class Pawn{
 		}
 
 		// Diagonal
-		if(board[x+1][y-1]>0){
-			moves.add(new XY(x+1,y-1));
+		if(x!=7){
+			if(board[x+1][y-1]>0){
+				moves.add(new XY(x+1,y-1));
+			}
 		}
-		if(board[x-1][y-1]>0){
-			moves.add(new XY(x-1,y-1));
+		if(x!=0){
+			if(board[x-1][y-1]>0){
+				moves.add(new XY(x-1,y-1));
+			}
 		}
 
 		if(lastMoveEnPassantable){
