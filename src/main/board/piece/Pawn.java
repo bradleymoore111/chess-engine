@@ -46,12 +46,12 @@ public class Pawn{
 		int y = pos.y;
 
 		// Forward
-		if(y==1){
-			if(board[x][6]==0&&board[x][5]==0){
-				moves.add(new XY(x,6));
+		if(y==6){
+			if(board[x][5]==0&&board[x][4]==0){
 				moves.add(new XY(x,5));
-			}else if(board[x][6]==0){
-				moves.add(new XY(x,6));
+				moves.add(new XY(x,4));
+			}else if(board[x][5]==0){
+				moves.add(new XY(x,5));
 			}
 		}else if(board[x][y-1]==0){
 			moves.add(new XY(x,y-1));

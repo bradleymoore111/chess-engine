@@ -13,4 +13,7 @@ public class XY{
 	public String toString(){
 		return "("+x+", "+y+")";
 	}
+	public boolean equals(XY b){
+		return ((this.x==b.x)&&(this.y==b.y));
+	}
 }

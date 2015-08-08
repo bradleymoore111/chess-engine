@@ -325,25 +325,116 @@ public class Board{
 	}
 
 	public void move(XY a,XY b){
+		int type=getPiece(a);
 		/*
 			For the actual engine, I probably won't be using this specific command, as it involves some unnecessary calculations such as checking if king is checked. Whereas for my type A calculation and branching, I'm probably going to just have a list of every single possible move, and want to filter each move preemptively to make sure legal. I'll still need the pawn and castle stuff, but can ignore the checking legal moves, so I'll copy pasta this function with an f in front of it for faster, but assuming legal move (so move will be carried out properly).
 
 			Basically everything that isn't under "Make sure is a legal move" will be kept
 		 */
-		// Todo: implement few checks
 		// Make sure is a legal move
-		// 	   Move is within that piece's move list (getMoves of that piece)
-		//     Doesn't result in check after move (handles both pins, and not dealing with present check)
 		// 	   This is the stuff that will be omitted
+		// 	   Move is within that piece's move list (getMoves of that piece)		
+		ArrayList<XY> possibleMoves = getMoves(a);
+		if(possibleMoves.size()==0){
+			message = "Piece cannot move there";
+			return; 
+		}
+		for(int i=0;i<possibleMoves.size();i++){
+			if(possibleMoves.get(i).equals(b)){
+				break;
+			}else if(i==possibleMoves.size()-1){
+				message = "Piece cannot move there";
+				return;
+			}
+		}
+		//     Doesn't result in check after move (handles both pins, and not dealing with present check)
+		int oldPiece = getPiece(b);
+		board[b.x][b.y] = type;
+		if(isChecked(getPiece(a)>0)){
+			board[b.x][b.y] = oldPiece;
+			return;
+		}
+		board[a.x][a.y] = 0; // Technically now the move has been made and is considered legal. There's nothing else that will make it illegal. I think.
 		// If pawn move, check if en passantable needs to be toggled
-		// 	   Check if moving onto final row, if so, turn into queen
-		//     Check if En Passant is actually happening (if enpassantable, if pawn taking on file, just check if en passant's happening)
-		// If not pawn double jump, turn off en passantable (both variables)
-		// If king, check if it's the castle. If so, move rook. If not, turn off that king's castling privileges 
-		// If rook, turn off that side castle privileges
+		if(type==6){ // white pawn
+		// 		Check if moving onto final row, if so, turn into queen
+			if(b.y==7){
+				board[b.x][b.y] = 5; // Turn it into a queen
+			}
+		//  	Check if En Passant is actually happening (if enpassantable, if pawn taking on file, just check if en passant's happening)
+			else if(a.y==1&&b.y==3){ // Is double jumping
+				lastMoveEnPassantable = true;
+				lastPawnEnPassantable = a.x;
+			}else{
+		// 		If not pawn double jump, turn off en passantable (both variables)
+				lastMoveEnPassantable = false;
+			}
+		}else if(type==-6){ // black pawn
+			if(b.y==0){
+				board[b.x][b.y] = -5;
+			}
+			else if(a.y==6&&b.y==4){
+				lastMoveEnPassantable = true;
+				lastPawnEnPassantable = a.x;
+			}else{
+				lastMoveEnPassantable = false;
+			}
+		}else{ // It's not a pawn
+			lastMoveEnPassantable = false;
+		}
 
-		board[b.x][b.y] = board[a.x][a.y]; // I'm kinda lazy, so for now
-		board[a.x][a.y] = 0;
+		// If king, check if it's the castle. If so, move rook. If not, turn off that king's castling privileges 
+		if(type==1){ // white king
+			if(a.x==4){
+				if(b.x==6){ // castling abilities are already checked for in King.getMoves
+					board[5][0] = 4;
+					board[7][0] = 0;
+				}else if(b.x==2){ // queenside castling
+					board[3][0] = 4;
+					board[0][0] = 0;
+				}else{ // neither, just moving
+					whiteKingCastle = false;
+					whiteQueenCastle = false;
+				}			
+			}
+		}else if(type==-2){ // black king
+			if(a.x==4){
+				if(b.x==6){ // castling abilities are already checked for in King.getMoves
+					board[5][7] = -4;
+					board[7][7] = 0;
+				}else if(b.x==2){ // queenside castling
+					board[3][7] = -4;
+					board[0][7] = 0;
+				}else{
+					blackKingCastle = false;
+					blackQueenCastle = false;
+				}
+			}
+		}
+		// If rook, turn off that side castle privileges
+		if(Math.abs(type)==4){ // rook
+			if(type>0){ // white
+				if(whiteKingCastle){ // rook hasn't previously moved
+					if(a.x==7){ // is the kingside rook
+						whiteKingCastle = false;
+					}
+				}else if(whiteQueenCastle){
+					if(a.x==0){
+						whiteQueenCastle = false;
+					}
+				}
+			}else{ // black
+				if(blackKingCastle){
+					if(a.x==7){
+						blackKingCastle = false;
+					}
+				}else if(blackQueenCastle){
+					if(a.x==0){
+						blackQueenCastle = false;
+					}
+				}
+			}
+		}
 	}
 
 	public String toString(){
