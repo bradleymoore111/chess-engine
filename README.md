@@ -9,12 +9,12 @@ Search Program
 	Same for opposite color
 		(Optional Check transposition table)
 
-	Do up to Nth ply, then ping evaluation program with board
+	Do up to Nth ply, then ping evaluation program with board // Might be 4 or 5, as after that it's in the millions
 
 	(Optional pruning, use top N branches)
 	(Optional pruning, if move is not above a certain threshold for evalution, EG. all branches that are within 4 points of top branch, everything below would be useless)
 
-	Go back to "Do up to Nth..." as needed
+	Go back to "Do up to Nth..." as needed 
 
 	Stop at time constraint, or depth constraint
 
