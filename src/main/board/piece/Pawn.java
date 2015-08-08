@@ -7,6 +7,7 @@ public class Pawn{
 		int x = pos.x;
 		int y = pos.y;
 
+		// Forward moving
 		if(y==1){
 			if(board[x][2]==0&&board[x][3]==0){
 				moves.add(new XY(x,2));
@@ -16,6 +17,14 @@ public class Pawn{
 			}
 		}else if(board[x][y+1]==0){
 			moves.add(new XY(x,y+1));
+		}
+
+		// Diagonal attacking
+		if(board[x+1][y+1]<0){
+			moves.add(new XY(x+1,y+1));
+		}
+		if(board[x-1][y+1]<9){
+			moves.add(new XY(x-1,y+1));
 		}
 
 		// En passant stuff
@@ -36,6 +45,7 @@ public class Pawn{
 		int x = pos.x;
 		int y = pos.y;
 
+		// Forward
 		if(y==1){
 			if(board[x][6]==0&&board[x][5]==0){
 				moves.add(new XY(x,6));
@@ -45,6 +55,14 @@ public class Pawn{
 			}
 		}else if(board[x][y-1]==0){
 			moves.add(new XY(x,y-1));
+		}
+
+		// Diagonal
+		if(board[x+1][y-1]>0){
+			moves.add(new XY(x+1,y-1));
+		}
+		if(board[x-1][y-1]>0){
+			moves.add(new XY(x-1,y-1));
 		}
 
 		if(lastMoveEnPassantable){
