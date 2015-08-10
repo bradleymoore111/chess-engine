@@ -455,7 +455,8 @@ public class Board{
 					if(a.x==7){ // is the kingside rook
 						whiteKingCastle = false;
 					}
-				}else if(whiteQueenCastle){
+				}
+				if(whiteQueenCastle){
 					if(a.x==0){
 						whiteQueenCastle = false;
 					}
@@ -465,8 +466,36 @@ public class Board{
 					if(a.x==7){
 						blackKingCastle = false;
 					}
-				}else if(blackQueenCastle){
+				}
+				if(blackQueenCastle){
 					if(a.x==0){
+						blackQueenCastle = false;
+					}
+				}
+			}
+		}
+
+		// Disabling castling if a rook is taken
+		if(Math.abs(oldPiece)==4){ // Captured rook
+			if(oldPiece>0){ // white
+				if(whiteKingCastle){
+					if(b.x==7){ // king's rook
+						whiteKingCastle = false;
+					}
+				}
+				if(whiteQueenCastle){
+					if(b.x==0){
+						whiteQueenCastle = false;
+					}
+				}
+			}else{
+				if(blackKingCastle){
+					if(b.x==7){
+						whiteKingCastle = false;
+					}
+				}
+				if(blackQueenCastle){
+					if(b.x==0){
 						blackQueenCastle = false;
 					}
 				}
