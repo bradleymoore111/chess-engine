@@ -386,7 +386,7 @@ public class Board{
 			message = "Move results in check";
 			return;
 		}
-		board[a.x][a.y] = 0; // Technically now the move has been made and is considered legal. There's nothing else that will make it illegal. I think.
+		// Technically now the move has been made and is considered legal. There's nothing else that will make it illegal. I think.
 		// If pawn move, check if en passantable needs to be toggled
 		if(type==6){ // white pawn
 		// 		Check if moving onto final row, if so, turn into queen
@@ -398,6 +398,11 @@ public class Board{
 			else if(a.y==1&&b.y==3){ // Is double jumping
 				lastMoveEnPassantable = true;
 				lastPawnEnPassantable = a.x;
+			}else if(lastMoveEnPassantable){ // Possible an en passant move
+				if(a.x!=b.x && a.y==4 && b.x==lastPawnEnPassantable){ // Still possible en passant, Pawn is taking onto en passant file
+					message = "En Passant";
+					board[b.x][a.y] = 0; // empty square that is being taken via en passant
+				}
 			}else{
 		// 		If not pawn double jump, turn off en passantable (both variables)
 				lastMoveEnPassantable = false;
@@ -409,6 +414,11 @@ public class Board{
 			else if(a.y==6&&b.y==4){
 				lastMoveEnPassantable = true;
 				lastPawnEnPassantable = a.x;
+			}else if(lastMoveEnPassantable){ // Possible an en passant move
+				if(a.x!=b.x && a.y==3 && b.x==lastPawnEnPassantable){ // Still possible en passant, Pawn is taking onto en passant file
+					message = "En Passant";
+					board[b.x][a.y] = 0; // empty square that is being taken via en passant
+				}
 			}else{
 				lastMoveEnPassantable = false;
 			}
