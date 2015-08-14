@@ -1,3 +1,6 @@
+Extremely useful link:
+http://home.hccnet.nl/h.g.muller/max-src2.html
+
 Program layout:
 // Parentheses are optional future todos, otherwise, this is all end goal.
 
