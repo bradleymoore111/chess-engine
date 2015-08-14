@@ -32,7 +32,7 @@ public class Evaluation {
 		return score;
 	}
 
-	public static int valcueOfPiece(int type){
+	public static int valueOfPiece(int type){
 		/*
 		Pawn: 1
 		Knight: 3
