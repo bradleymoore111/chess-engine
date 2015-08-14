@@ -3,17 +3,17 @@ package main.board;
 import java.util.ArrayList;
 import main.board.piece.*;
 public class Board{
-	public boolean sideToMove;
+	// public boolean sideToMove; 8,0
 	
-	public boolean whiteKingCastle;
-	public boolean whiteQueenCastle;
-	public boolean blackKingCastle;
-	public boolean blackQueenCastle;
+	// public boolean whiteKingCastle; 8,1
+	// public boolean whiteQueenCastle; 8,2
+	// public boolean blackKingCastle; 8,3
+	// public boolean blackQueenCastle; 8,4
 
-	public boolean lastMoveEnPassantable;
-	public int lastPawnEnPassantable; // Which file can be captured via en passant
+	// public boolean lastMoveEnPassantable; 8,5
+	// public int lastPawnEnPassantable; 8,6 // Which file can be captured via en passant
 
-	public int movesSincePieceLost; // 50-move rule
+	// public int movesSincePieceLost; 8,7 // 50-move rule
 
 	/* 	Each piece will be represented by a number
 		0 - empty tile
@@ -34,7 +34,7 @@ public class Board{
 
 	public String message;
 
-	public Board(int init){
+	public Board(boolean init){
 		if(init)
 			initialize(); //todo;
 	}
@@ -55,6 +55,7 @@ public class Board{
 			{ 0, 0, 0, 0, 0, 0, 0, 0},
 			{ 6, 6, 6, 6, 6, 6, 6, 6},
 			{ 4, 2, 3, 5, 1, 3, 2, 4},
+			{ 1, 1, 1, 1, 1, 0, 0, 0} // sideToMove, whiteKingCastle, whiteQueenCastle, blackKingCastle, blackQueenCastle, lastMoveEpPassantable, lastPawnEnPassantable, move Count or score not sure
 		};
 
 		// Initializing the pieces in order
@@ -64,14 +65,14 @@ public class Board{
 				board[j][i]=startingPostitions[7-i][j];
 			}
 		}
-		sideToMove = true;
-		whiteKingCastle = true;
-		whiteQueenCastle = true;
-		blackKingCastle = true;
-		blackQueenCastle = true;
+		// sideToMove = true;
+		// whiteKingCastle = true;
+		// whiteQueenCastle = true;
+		// blackKingCastle = true;
+		// blackQueenCastle = true;
 
-		lastMoveEnPassantable = false;
-		lastPawnEnPassantable = 0;
+		// lastMoveEnPassantable = false;
+		// lastPawnEnPassantable = 0;
 	}
 
 	public int getPiece(XY a){
@@ -92,9 +93,9 @@ public class Board{
 			case -1:
 			case 1:
 				if(getPiece(a)>0){
-					moves= King.getMoves(a,board,whiteKingCastle,whiteQueenCastle);
+					moves= King.getMoves(a,board);
 				}else{
-					moves= King.getMoves(a,board,blackKingCastle,blackQueenCastle);
+					moves= King.getMoves(a,board);
 				}			
 				break;
 			case -2:
@@ -114,10 +115,10 @@ public class Board{
 				moves= Queen.getMoves(a,board);
 				break;
 			case -6:
-				moves= Pawn.getMovesBlack(a,board,lastMoveEnPassantable,lastPawnEnPassantable);
+				moves= Pawn.getMovesBlack(a,board);
 				break;
-			case 6:
-				moves= Pawn.getMovesWhite(a,board,lastMoveEnPassantable,lastPawnEnPassantable);
+			case 6: 
+				moves= Pawn.getMovesWhite(a,board);
 				break;		
 		}
 
@@ -352,11 +353,11 @@ public class Board{
 		return false;
 	}
 
-	public int[][] tempBoardAfterMove(XY a,XY b){
-		int oldPiece = getPiece(b);
-		int movingPiece = getPiece(a);
-		move()
-	}
+	// public int[][] tempBoardAfterMove(XY a,XY b){
+	// 	int oldPiece = getPiece(b);
+	// 	int movingPiece = getPiece(a);
+	// 	move();
+	// }
 
 	public void move(XY a,XY b){
 		// message = "HURR DURR WHY AIN'T THIS WORKING";
@@ -403,34 +404,34 @@ public class Board{
 			}
 		//  	Check if En Passant is actually happening (if enpassantable, if pawn taking on file, just check if en passant's happening)
 			else if(a.y==1&&b.y==3){ // Is double jumping
-				lastMoveEnPassantable = true;
-				lastPawnEnPassantable = a.x;
-			}else if(lastMoveEnPassantable){ // Possible an en passant move
-				if(a.x!=b.x && a.y==4 && b.x==lastPawnEnPassantable){ // Still possible en passant, Pawn is taking onto en passant file
+				board[8][5] = 0;
+				board[8][6] = a.x;
+			}else if(board[8][5]==1){ // Possible for an en passant move
+				if(a.x!=b.x && a.y==4 && b.x==board[8][6]){ // Still possible en passant, Pawn is taking onto en passant file
 					message = "En Passant";
 					board[b.x][a.y] = 0; // empty square that is being taken via en passant
 				}
 			}else{
 		// 		If not pawn double jump, turn off en passantable (both variables)
-				lastMoveEnPassantable = false;
+				board[8][5] = 0;
 			}
 		}else if(type==-6){ // black pawn
 			if(b.y==0){
 				board[b.x][b.y] = -5;
 			}
 			else if(a.y==6&&b.y==4){
-				lastMoveEnPassantable = true;
-				lastPawnEnPassantable = a.x;
-			}else if(lastMoveEnPassantable){ // Possible an en passant move
-				if(a.x!=b.x && a.y==3 && b.x==lastPawnEnPassantable){ // Still possible en passant, Pawn is taking onto en passant file
+				board[8][5] = 1;
+				board[8][6] = a.x;
+			}else if(board[8][5]==1){ // Possible an en passant move
+				if(a.x!=b.x && a.y==3 && b.x==board[8][6]){ // Still possible en passant, Pawn is taking onto en passant file
 					message = "En Passant";
 					board[b.x][a.y] = 0; // empty square that is being taken via en passant
 				}
 			}else{
-				lastMoveEnPassantable = false;
+				board[8][5] = 0;
 			}
 		}else{ // It's not a pawn
-			lastMoveEnPassantable = false;
+			board[8][5] = 0;
 		}
 
 		// If king, check if it's the castle. If so, move rook. If not, turn off that king's castling privileges 
@@ -444,10 +445,10 @@ public class Board{
 					message = "Castled queenside";
 					board[3][0] = 4;
 					board[0][0] = 0;
-				}else{ // neither, just moving
-					whiteKingCastle = false;
-					whiteQueenCastle = false;
-				}			
+				}// else{ // neither, just moving
+					board[8][1] = 0;
+					board[8][2] = 0;
+				// } even after it castles, it no longer has castling rights. We can disable them		
 			}
 		}else if(type==-2){ // black king
 			if(a.x==4){
@@ -459,34 +460,34 @@ public class Board{
 					message = "Castled queenside";
 					board[3][7] = -4;
 					board[0][7] = 0;
-				}else{
-					blackKingCastle = false;
-					blackQueenCastle = false;
-				}
+				}//else{
+					board[8][3] = 0;
+					board[8][4] = 0;
+				//}
 			}
 		}
 		// If rook, turn off that side castle privileges
 		if(Math.abs(type)==4){ // rook
 			if(type>0){ // white
-				if(whiteKingCastle){ // rook hasn't previously moved
+				if(board[8][1]==1){ // rook hasn't previously moved
 					if(a.x==7){ // is the kingside rook
-						whiteKingCastle = false;
+						board[8][1] = 0;
 					}
 				}
-				if(whiteQueenCastle){
+				if(board[8][2]==1){
 					if(a.x==0){
-						whiteQueenCastle = false;
+						board[8][2] = 0;
 					}
 				}
 			}else{ // black
-				if(blackKingCastle){
+				if(board[8][3]==1){
 					if(a.x==7){
-						blackKingCastle = false;
+						board[8][3] = 0;
 					}
 				}
-				if(blackQueenCastle){
+				if(board[8][4]==1){
 					if(a.x==0){
-						blackQueenCastle = false;
+						board[8][4] = 0;
 					}
 				}
 			}
@@ -495,25 +496,25 @@ public class Board{
 		// Disabling castling if a rook is taken
 		if(Math.abs(oldPiece)==4){ // Captured rook
 			if(oldPiece>0){ // white
-				if(whiteKingCastle){
+				if(board[8][1]==1){
 					if(b.x==7){ // king's rook
-						whiteKingCastle = false;
+						board[8][1] = 0;
 					}
 				}
-				if(whiteQueenCastle){
+				if(board[8][2]==1){
 					if(b.x==0){
-						whiteQueenCastle = false;
+						board[8][2] = 0;
 					}
 				}
 			}else{
-				if(blackKingCastle){
+				if(board[8][3]==1){
 					if(b.x==7){
-						whiteKingCastle = false;
+						board[8][3] = 0;
 					}
 				}
-				if(blackQueenCastle){
+				if(board[8][4]==1){
 					if(b.x==0){
-						blackQueenCastle = false;
+						board[8][4] = 0;
 					}
 				}
 			}
@@ -524,7 +525,7 @@ public class Board{
 		// Very quick ascii representation of the board.
 		String s="\n";
 
-		s+= ((sideToMove)?"White":"Black") + " to move.\n\n|-----|-----|-----|-----|-----|-----|-----|-----|";
+		s+= ((board[8][0]==1)?"White":"Black") + " to move.\n\n|-----|-----|-----|-----|-----|-----|-----|-----|";
 		for(int i=7;i>=0;i--){
 			s+="\n|";
 			for(int j=0;j<8;j++){

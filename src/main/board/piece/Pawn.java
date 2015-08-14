@@ -2,7 +2,7 @@ package main.board.piece;
 
 import java.util.ArrayList;
 public class Pawn{
-	public static ArrayList<XY> getMovesWhite(XY pos, int[][] board, boolean lastMoveEnPassantable, int lastPawnEnPassantable){
+	public static ArrayList<XY> getMovesWhite(XY pos, int[][] board){
 		ArrayList<XY> moves = new ArrayList<XY>();
 		int x = pos.x;
 		int y = pos.y;
@@ -34,9 +34,9 @@ public class Pawn{
 		// En passant stuff
 		// Dear god.
 
-		if(lastMoveEnPassantable){
-			if((x+1==lastPawnEnPassantable||x-1==lastPawnEnPassantable)&&y==4){ // If the file is one to the left or one to the right, and the pawn is at the appropriate row
-				moves.add(new XY(lastPawnEnPassantable,5));
+		if(board[8][5]==1){
+			if((x+1==board[8][6]||x-1==board[8][6])&&y==4){ // If the file is one to the left or one to the right, and the pawn is at the appropriate row
+				moves.add(new XY(board[8][6],5));
 			}
 		}
 		// ...That wasn't that bad
@@ -44,7 +44,7 @@ public class Pawn{
 
 		return moves;
 	}
-	public static ArrayList<XY> getMovesBlack(XY pos, int[][] board, boolean lastMoveEnPassantable, int lastPawnEnPassantable){
+	public static ArrayList<XY> getMovesBlack(XY pos, int[][] board){
 		ArrayList<XY> moves = new ArrayList<XY>();
 		int x = pos.x;
 		int y = pos.y;
@@ -73,9 +73,9 @@ public class Pawn{
 			}
 		}
 
-		if(lastMoveEnPassantable){
-			if((x+1==lastPawnEnPassantable||x-1==lastPawnEnPassantable)&&y==3){
-				moves.add(new XY(lastPawnEnPassantable,2));
+		if(board[8][5]==1){
+			if((x+1==board[8][6]||x-1==board[8][6])&&y==3){
+				moves.add(new XY(board[8][6],2));
 			}
 		}
 
