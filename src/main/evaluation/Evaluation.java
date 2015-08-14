@@ -20,7 +20,7 @@ public class Evaluation {
 		int multiplier = sideToMove?1:-1;
 		for(int i=0;i<8;i++){
 			for(int j=0;j<8;j++){
-				score+= multiplier * valcueOfPiece(board[i][j]);
+				score+= multiplier * valueOfPiece(board[i][j]);
 			}
 		}
 
