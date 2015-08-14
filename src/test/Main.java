@@ -6,7 +6,7 @@ import main.board.piece.*;
 import main.evaluation.Evaluation;
 public class Main{
 	public static void main(String[] args) {
-		Board board = new Board();
+		Board board = new Board(1);
 
 		Scanner a = new Scanner(System.in);
 

@@ -1,9 +1,14 @@
 package main.evaluation;
 
 public class Evaluation {
+	public boolean idk;
+	public Evaluation(){
+		idk=true;
+	}
+
 	public static int evaluateBoard(int[][] board, boolean sideToMove){ // t=white, f=black
 
-		int score=0;
+		int score=0; // might change to a double eventually, that or just bump the size of everything WAY up.
 
 		/*
 		Pawn: 1

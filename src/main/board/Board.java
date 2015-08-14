@@ -34,8 +34,9 @@ public class Board{
 
 	public String message;
 
-	public Board(){
-		initialize(); //todo;
+	public Board(int init){
+		if(init)
+			initialize(); //todo;
 	}
 
 	public String getMessage(){
@@ -43,7 +44,7 @@ public class Board{
 	}
 	
 	public void initialize(){
-		board = new int[8][8];
+		board = new int[9][8];
 		
 		int[][] startingPostitions = {
 			{-4,-2,-3,-5,-1,-3,-2,-4},
@@ -53,7 +54,7 @@ public class Board{
 			{ 0, 0, 0, 0, 0, 0, 0, 0},
 			{ 0, 0, 0, 0, 0, 0, 0, 0},
 			{ 6, 6, 6, 6, 6, 6, 6, 6},
-			{ 4, 2, 3, 5, 1, 3, 2, 4}
+			{ 4, 2, 3, 5, 1, 3, 2, 4},
 		};
 
 		// Initializing the pieces in order
@@ -349,6 +350,12 @@ public class Board{
 		}
 
 		return false;
+	}
+
+	public int[][] tempBoardAfterMove(XY a,XY b){
+		int oldPiece = getPiece(b);
+		int movingPiece = getPiece(a);
+		move()
 	}
 
 	public void move(XY a,XY b){
