@@ -34,9 +34,25 @@ public class Board{
 
 	public String message;
 
+	private int lastPiece; // Piece that was overtaken
+	private XY lastMove; // Location piece was moved to
+	private XY oldPos; // Old position originally moved from
+	private boolean lastMoveWasEnPassant;
+	private boolean lastMoveWasQueenCastle;
+	private boolean lastMoveWasKingCastle;
+	private boolean lastMovePawnUpgrade;
+
 	public Board(boolean init){
 		if(init)
 			initialize(); //todo;
+	}
+
+	public Board(int[][] board){
+		this.board = board;
+	}
+
+	public Board clone(){
+		return new Board(board);
 	}
 
 	public String getMessage(){
@@ -362,6 +378,12 @@ public class Board{
 	public void move(XY a,XY b){
 		// message = "HURR DURR WHY AIN'T THIS WORKING";
 		int type=getPiece(a);
+		if(type>0){
+			if(board[8][0]==0){
+				message = "not that side's turn";
+				return;
+			}
+		}
 		/*
 			For the actual engine, I probably won't be using this specific command, as it involves some unnecessary calculations such as checking if king is checked. Whereas for my type A calculation and branching, I'm probably going to just have a list of every single possible move, and want to filter each move preemptively to make sure legal. I'll still need the pawn and castle stuff, but can ignore the checking legal moves, so I'll copy pasta this function with an f in front of it for faster, but assuming legal move (so move will be carried out properly).
 
@@ -400,7 +422,8 @@ public class Board{
 		// 		Check if moving onto final row, if so, turn into queen
 			if(b.y==7){
 				message = "Upgrading passed pawn";
-				board[b.x][b.y] = 5; // Turn it into a queen
+				board[b.x][7] = 5; // Turn it into a queen
+				lastMovePawnUpgrade = true;
 			}
 		//  	Check if En Passant is actually happening (if enpassantable, if pawn taking on file, just check if en passant's happening)
 			else if(a.y==1&&b.y==3){ // Is double jumping
@@ -410,6 +433,7 @@ public class Board{
 				if(a.x!=b.x && a.y==4 && b.x==board[8][6]){ // Still possible en passant, Pawn is taking onto en passant file
 					message = "En Passant";
 					board[b.x][a.y] = 0; // empty square that is being taken via en passant
+					lastMoveWasEnPassant = true;
 				}
 			}else{
 		// 		If not pawn double jump, turn off en passantable (both variables)
@@ -417,7 +441,8 @@ public class Board{
 			}
 		}else if(type==-6){ // black pawn
 			if(b.y==0){
-				board[b.x][b.y] = -5;
+				board[b.x][0] = -5;
+				lastMovePawnUpgrade = true;
 			}
 			else if(a.y==6&&b.y==4){
 				board[8][5] = 1;
@@ -426,12 +451,15 @@ public class Board{
 				if(a.x!=b.x && a.y==3 && b.x==board[8][6]){ // Still possible en passant, Pawn is taking onto en passant file
 					message = "En Passant";
 					board[b.x][a.y] = 0; // empty square that is being taken via en passant
+					lastMoveWasEnPassant = true;
 				}
 			}else{
 				board[8][5] = 0;
 			}
 		}else{ // It's not a pawn
 			board[8][5] = 0;
+			lastMoveWasEnPassant = false;
+			lastMovePawnUpgrade = false;
 		}
 
 		// If king, check if it's the castle. If so, move rook. If not, turn off that king's castling privileges 
@@ -441,30 +469,39 @@ public class Board{
 					message = "Castled kingside";
 					board[5][0] = 4;
 					board[7][0] = 0;
+					lastMoveWasKingCastle = true;
 				}else if(b.x==2){ // queenside castling
 					message = "Castled queenside";
 					board[3][0] = 4;
 					board[0][0] = 0;
+					lastMoveWasQueenCastle = true;
 				}// else{ // neither, just moving
-					board[8][1] = 0;
-					board[8][2] = 0;
+				else{lastMoveWasQueenCastle = false;lastMoveWasKingCastle = false;}
+				board[8][1] = 0;
+				board[8][2] = 0;
 				// } even after it castles, it no longer has castling rights. We can disable them		
 			}
-		}else if(type==-2){ // black king
+		}else if(type==-1){ // black king
 			if(a.x==4){
 				if(b.x==6){ // castling abilities are already checked for in King.getMoves
 					message = "Castled kingside";
 					board[5][7] = -4;
 					board[7][7] = 0;
+					lastMoveWasKingCastle = true;
 				}else if(b.x==2){ // queenside castling
 					message = "Castled queenside";
 					board[3][7] = -4;
 					board[0][7] = 0;
+					lastMoveWasQueenCastle = true;
 				}//else{
-					board[8][3] = 0;
-					board[8][4] = 0;
+				else{lastMoveWasQueenCastle = false;lastMoveWasKingCastle = false;}
+				board[8][3] = 0;
+				board[8][4] = 0;
 				//}
 			}
+		}else{
+			lastMoveWasQueenCastle = false;
+			lastMoveWasKingCastle = false;
 		}
 		// If rook, turn off that side castle privileges
 		if(Math.abs(type)==4){ // rook
@@ -519,6 +556,26 @@ public class Board{
 				}
 			}
 		}
+		board[8][0]*=-1; 
+		board[8][0]+=1; // toggles side to move
+
+		lastPiece = getPiece(b);
+		lastMove = b;
+		oldPos = a;	
+	}
+
+	public void undoMove(){
+		int mult = ((board[8][0]>0)?-1:1);
+		if(lastMovePawnUpgrade){
+			board[oldPos.x][oldPos.y] = mult*6;
+			board[lastMove.x][lastMove.y] = lastPiece;
+		}else if(lastMoveWasEnPassant){
+			board[oldPos.x][oldPos.y] = mult*6;
+			board[lastMove.x][oldPos.y] = mult*-6;
+			// need to clear space that en passant pawn has moved to. is color dependent
+		}
+		// todo: lastMoveWasQueenCastle
+		// todo: lastMoveWasKingCastle
 	}
 
 	public String toString(){

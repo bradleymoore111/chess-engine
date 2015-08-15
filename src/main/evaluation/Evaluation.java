@@ -6,7 +6,7 @@ public class Evaluation {
 		idk=true;
 	}
 
-	public static int evaluateBoard(int[][] board, boolean sideToMove){ // t=white, f=black
+	public static int evaluateBoard(int[][] board){ // t=white, f=black
 
 		int score=0; // might change to a double eventually, that or just bump the size of everything WAY up.
 
@@ -22,7 +22,7 @@ public class Evaluation {
 		 */
 
 		// Count up material value
-		int multiplier = sideToMove?1:-1;
+		int multiplier = (board[8][0]==1)?1:-1;
 		for(int i=0;i<8;i++){
 			for(int j=0;j<8;j++){
 				score+= multiplier * valueOfPiece(board[i][j]);
