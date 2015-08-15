@@ -6,15 +6,30 @@ import main.board.piece.*;
 import main.evaluation.Evaluation;
 public class Search{
 
+	// call function for each possible move, after making move, evaluate that board using min maxing.
+	// move with highest min maxed is the XY to be returned
 	public XY search(Board board, int n){ // n = depth
-		// call function for each possible move, after making move, evaluate that board using min maxing.
-		// move with highest min maxed is the XY to be returned
 
 		// make list of all possible moves for this color
+		ArrayList<XY> allPieces = listAllPieces(board.board);
+		ArrayList<ArrayList<XY>> allMoves = new ArrayList<ArrayList<XY>>();
+
+		for(int i=0;i<allPieces.size();i++){
+			allMoves.add(board.getMoves(allPieces.get(i))); // Generate every single possible move
+		}
 
 		// make additional list for storing negamax value of each move
+		ArrayList<ArrayList<int>> scores = new ArrayList<ArrayList<int>>();
 
 		// fill list 
+		for(int i=0;i<allMoves.size();i++){
+			scores.add(new ArrayList<int>());
+			for(int j=0;j<allMoves.get(i).size();j++){
+				// do move
+				scores.get(i).add(recursiveNegaMaxSearch(board.clone(),-8000,8000,n));
+				// undo move
+			}
+		}
 
 		// find highest value within that list along with its location, return that move
 
