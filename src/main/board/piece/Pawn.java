@@ -31,7 +31,7 @@ public class Pawn{
 		}
 		if(x!=0){
 			if(y<7){
-				if(board[x-1][y+1]<9){
+				if(board[x-1][y+1]<0){
 					moves.add(new XY(x-1,y+1));
 				}
 			}
