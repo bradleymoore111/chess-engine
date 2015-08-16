@@ -15,19 +15,25 @@ public class Pawn{
 			}else if(board[x][2]==0){
 				moves.add(new XY(x,2));
 			}
-		}else if(board[x][y+1]==0){
-			moves.add(new XY(x,y+1));
+		}else if(y<7){
+			if(board[x][y+1]==0){
+				moves.add(new XY(x,y+1));
+			}
 		}
 
 		// Diagonal attacking
 		if(x!=7){
-			if(board[x+1][y+1]<0){
-				moves.add(new XY(x+1,y+1));
+			if(y<7){
+				if(board[x+1][y+1]<0){
+					moves.add(new XY(x+1,y+1));
+				}
 			}
 		}
 		if(x!=0){
-			if(board[x-1][y+1]<9){
-				moves.add(new XY(x-1,y+1));
+			if(y<7){
+				if(board[x-1][y+1]<9){
+					moves.add(new XY(x-1,y+1));
+				}
 			}
 		}
 
@@ -57,19 +63,25 @@ public class Pawn{
 			}else if(board[x][5]==0){
 				moves.add(new XY(x,5));
 			}
-		}else if(board[x][y-1]==0){
-			moves.add(new XY(x,y-1));
+		}else if(y>0){
+			if(board[x][y-1]==0){
+				moves.add(new XY(x,y-1));
+			}
 		}
 
 		// Diagonal
 		if(x!=7){
-			if(board[x+1][y-1]>0){
-				moves.add(new XY(x+1,y-1));
+			if(y>0){
+				if(board[x+1][y-1]>0){
+					moves.add(new XY(x+1,y-1));
+				}
 			}
 		}
 		if(x!=0){
-			if(board[x-1][y-1]>0){
-				moves.add(new XY(x-1,y-1));
+			if(y>0){
+				if(board[x-1][y-1]>0){
+					moves.add(new XY(x-1,y-1));
+				}
 			}
 		}
 

@@ -38,7 +38,7 @@ public class Main{
 				board.undoMove();
 				message = "Undid move";
 			}else if(choice.equalsIgnoreCase("search")){
-				System.out.println(Search.search(board,4));
+				System.out.println(Search.search(board,6));
 			}
 		}
 	}

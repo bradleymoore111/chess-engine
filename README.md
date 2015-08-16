@@ -7,23 +7,21 @@ Program layout:
 Search Program
 	GetMoves from Board for each piece
 
-	Make separate branch for each move
-
-	Same for opposite color
-		(Optional Check transposition table)
-
-	Do up to Nth ply, then ping evaluation program with board // Might be 4 or 5, as after that it's in the millions
+	Create board for each move, use minmax eval function to evaluate value of that board
+		Searches recursively, finding the highest (or lowest) abs value, returns its real value
 
 	(Optional pruning, use top N branches)
 	(Optional pruning, if move is not above a certain threshold for evalution, EG. all branches that are within 4 points of top branch, everything below would be useless)
+		Could prune off these top n moves, by then searching an equal n depth within them
+		It would be important that whatever ply depth I go under does not consume a large amount of time, as if it does, then pruning these and then researching them would be too big of a waste
 
 	Go back to "Do up to Nth..." as needed 
 
 	Stop at time constraint, or depth constraint
 
-	// Figure out how to search branches for best outcome assuming ideal play from both
+	Eventually a quiseance (idk how to spell it) search would be ideal to look up, so as to prevent the board from judging hanging pieces, and continuing its search along that branch
 
-	Return best branch
+	Return best branch after several iterations
 
 Evaluation Program // Honestly might be the more fun part
 	Intakes board

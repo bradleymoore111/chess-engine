@@ -34,16 +34,16 @@ public class Board{
 
 	public String message;
 
-	private int lastPiece; // Piece that was overtaken
-	private XY lastMove; // Location piece was moved to
-	private XY oldPos; // Old position originally moved from
-	private boolean lastMoveWasEnPassant;
-	private boolean lastMoveWasQueenCastle;
-	private boolean lastMoveWasKingCastle;
-	private boolean lastMovePawnUpgrade;
+	private int lastPiece = 0; // Piece that was overtaken
+	private XY lastMove = new XY(0,0); // Location piece was moved to
+	private XY oldPos = new XY(0,0); // Old position originally moved from
+	private boolean lastMoveWasEnPassant = false;
+	private boolean lastMoveWasQueenCastle = false;
+	private boolean lastMoveWasKingCastle = false;
+	private boolean lastMovePawnUpgrade = false;
 
-	private boolean lastMoveTookQueen; // castling
-	private boolean lastMoveTookKing; // castling
+	private boolean lastMoveTookQueen = false; // castling
+	private boolean lastMoveTookKing = false; // castling
 
 	public Board(boolean init){
 		if(init)
