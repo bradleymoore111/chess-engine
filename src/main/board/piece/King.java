@@ -200,7 +200,7 @@ public class King{
 			if(board[4][1]==-6){
 				return false;
 			}
-			for(int i=1;i<=6;i++){
+			for(int i=1;i<=5;i++){
 				if(board[5-i][i]==-3||board[5-i][i]==-5){
 					return false;
 				}else if(board[5-i][i]!=0){

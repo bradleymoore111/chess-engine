@@ -42,6 +42,9 @@ public class Board{
 	private boolean lastMoveWasKingCastle;
 	private boolean lastMovePawnUpgrade;
 
+	private boolean lastMoveTookQueen; // castling
+	private boolean lastMoveTookKing; // castling
+
 	public Board(boolean init){
 		if(init)
 			initialize(); //todo;
@@ -80,6 +83,9 @@ public class Board{
 			for(int j=0;j<8;j++){
 				board[j][i]=startingPostitions[7-i][j];
 			}
+		}
+		for(int i=0;i<8;i++){
+			board[8][i] = startingPostitions[8][i];
 		}
 		// sideToMove = true;
 		// whiteKingCastle = true;
@@ -383,6 +389,11 @@ public class Board{
 				message = "not that side's turn";
 				return;
 			}
+		}else{
+			if(board[8][0]==1){
+				message = "not that side's turn";
+				return;
+			}
 		}
 		/*
 			For the actual engine, I probably won't be using this specific command, as it involves some unnecessary calculations such as checking if king is checked. Whereas for my type A calculation and branching, I'm probably going to just have a list of every single possible move, and want to filter each move preemptively to make sure legal. I'll still need the pawn and castle stuff, but can ignore the checking legal moves, so I'll copy pasta this function with an f in front of it for faster, but assuming legal move (so move will be carried out properly).
@@ -477,8 +488,14 @@ public class Board{
 					lastMoveWasQueenCastle = true;
 				}// else{ // neither, just moving
 				else{lastMoveWasQueenCastle = false;lastMoveWasKingCastle = false;}
-				board[8][1] = 0;
-				board[8][2] = 0;
+				if(board[8][1] == 1){
+					board[8][1] = 0;
+					lastMoveTookKing = true;
+				}
+				if(board[8][2] == 1){
+					board[8][2] = 0;
+					lastMoveTookQueen = true;
+				}				
 				// } even after it castles, it no longer has castling rights. We can disable them		
 			}
 		}else if(type==-1){ // black king
@@ -495,8 +512,14 @@ public class Board{
 					lastMoveWasQueenCastle = true;
 				}//else{
 				else{lastMoveWasQueenCastle = false;lastMoveWasKingCastle = false;}
-				board[8][3] = 0;
-				board[8][4] = 0;
+				if(board[8][3] == 1){
+					board[8][3] = 0;
+					lastMoveTookKing = true;
+				}
+				if(board[8][4] == 1){
+					board[8][4] = 0;
+					lastMoveTookQueen = true;
+				}
 				//}
 			}
 		}else{
@@ -509,23 +532,35 @@ public class Board{
 				if(board[8][1]==1){ // rook hasn't previously moved
 					if(a.x==7){ // is the kingside rook
 						board[8][1] = 0;
+						lastMoveTookKing = true;
 					}
+				}else{
+					lastMoveTookKing = false;
 				}
 				if(board[8][2]==1){
 					if(a.x==0){
 						board[8][2] = 0;
+						lastMoveTookQueen = true;
 					}
+				}else{
+					lastMoveTookQueen = false;
 				}
 			}else{ // black
 				if(board[8][3]==1){
 					if(a.x==7){
 						board[8][3] = 0;
+						lastMoveTookKing = true;
 					}
+				}else{
+					lastMoveTookKing = false;
 				}
 				if(board[8][4]==1){
 					if(a.x==0){
 						board[8][4] = 0;
+						lastMoveTookQueen = true;
 					}
+				}else{
+					lastMoveTookQueen = false;
 				}
 			}
 		}
@@ -536,30 +571,38 @@ public class Board{
 				if(board[8][1]==1){
 					if(b.x==7){ // king's rook
 						board[8][1] = 0;
+						lastMoveTookKing = true;
 					}
 				}
 				if(board[8][2]==1){
 					if(b.x==0){
 						board[8][2] = 0;
+						lastMoveTookQueen = true;
 					}
 				}
 			}else{
 				if(board[8][3]==1){
 					if(b.x==7){
 						board[8][3] = 0;
+						lastMoveTookKing = true;
 					}
 				}
 				if(board[8][4]==1){
 					if(b.x==0){
 						board[8][4] = 0;
+						lastMoveTookQueen = true;
 					}
 				}
 			}
 		}
+		if(Math.abs(type)==2||Math.abs(type)==3||Math.abs(type)==5||Math.abs(type)==6){
+			lastMoveTookQueen = false;
+			lastMoveTookKing = false;
+		}
 		board[8][0]*=-1; 
 		board[8][0]+=1; // toggles side to move
 
-		lastPiece = getPiece(b);
+		lastPiece = oldPiece;
 		lastMove = b;
 		oldPos = a;	
 	}
@@ -573,9 +616,33 @@ public class Board{
 			board[oldPos.x][oldPos.y] = mult*6;
 			board[lastMove.x][oldPos.y] = mult*-6;
 			// need to clear space that en passant pawn has moved to. is color dependent
+			board[lastMove.x][lastMove.y] = 0;
+			board[8][5] = 0;
+			board[8][6] = lastMove.x;
+		}else if(lastMoveWasQueenCastle){
+			board[4][oldPos.y] = mult; // resetting king
+			board[3][oldPos.y] = 0; // clearing old rook
+			board[2][oldPos.y] = 0; // clearing old king
+			board[0][oldPos.y] = mult*4; // resetting rook
+		}else if(lastMoveWasKingCastle){
+			board[4][oldPos.y] = mult; // resetting king
+			board[5][oldPos.y] = 0; // clearing old rook
+			board[6][oldPos.y] = 0; // clearing old king
+			board[7][oldPos.y] = mult*4; // resetting rook
+		}else{ // normal move
+			board[oldPos.x][oldPos.y] = board[lastMove.x][lastMove.y];
+			board[lastMove.x][lastMove.y] = lastPiece;
 		}
-		// todo: lastMoveWasQueenCastle
-		// todo: lastMoveWasKingCastle
+
+		if(lastMoveTookQueen){
+			board[8][3-mult] = 1;
+		}
+		if(lastMoveTookKing){
+			board[8][2-mult] = 1;
+		}
+
+		board[8][0]*=-1; 
+		board[8][0]+=1; // toggles side to move
 	}
 
 	public String toString(){
