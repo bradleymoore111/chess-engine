@@ -4,18 +4,18 @@ import java.util.Scanner;
 import main.board.Board;
 import main.board.piece.*;
 import main.evaluation.Evaluation;
+import main.search.Search;
 public class Main{
 	public static void main(String[] args) {
 		Board board = new Board(true);
 
 		Scanner a = new Scanner(System.in);
-
 		String message="";
 
 		while(true){
 			System.out.println(board.toString());
 			System.out.println("Previous command return message:\n"+message+"\n\n");
-			System.out.println("To move a piece, 'move' <x> <y> <x> <y>.\nTo get a pieces moves, 'list' <x> <y>\nTo see if king is 'check'ed, enter a color (true or false)\nTo 'undo' a move... yea.");
+			System.out.println("To move a piece, 'move' <x> <y> <x> <y>.\nTo get a pieces moves, 'list' <x> <y>\nTo see if king is 'check'ed, enter a color (true or false)\nTo 'undo' a move... yea.\nTo find the best move ever, 'search'");
 			String choice = a.next();
 			if(choice.equalsIgnoreCase("move")){
 				int x=a.nextInt();
@@ -37,6 +37,8 @@ public class Main{
 			}else if(choice.equalsIgnoreCase("undo")){
 				board.undoMove();
 				message = "Undid move";
+			}else if(choice.equalsIgnoreCase("search")){
+				System.out.println(Search.search(board,4));
 			}
 		}
 	}

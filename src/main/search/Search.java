@@ -7,8 +7,8 @@ import main.evaluation.Evaluation;
 public class Search{
 
 	// call function for each possible move, after making move, evaluate that board using min maxing.
-	// move with highest min maxed is the XY to be returned
-	public XY search(Board board, int n){ // n = depth
+	// move with highest min maxed is the XY to be returned, as a 2 entry list
+	public static ArrayList<XY> search(Board board, int n){ // n = depth
 
 		// make list of all possible moves for this color
 		ArrayList<XY> allPieces = listAllPieces(board.board);
@@ -19,26 +19,42 @@ public class Search{
 		}
 
 		// make additional list for storing negamax value of each move
-		ArrayList<ArrayList<int>> scores = new ArrayList<ArrayList<int>>();
+		ArrayList<ArrayList<Integer>> scores = new ArrayList<ArrayList<Integer>>();
 
 		// fill list 
 		for(int i=0;i<allMoves.size();i++){
-			scores.add(new ArrayList<int>());
+			scores.add(new ArrayList<Integer>());
 			for(int j=0;j<allMoves.get(i).size();j++){
-				// do move
+				board.move(allPieces.get(i),allMoves.get(i).get(j));
 				scores.get(i).add(recursiveNegaMaxSearch(board.clone(),-8000,8000,n));
-				// undo move
+				board.undoMove();
 			}
 		}
 
 		// find highest value within that list along with its location, return that move
+		int max = -8000;
+		int locMaxI = 0;
+		int locMaxJ = 0;
 
-		return new XY(0,0);
+		for(int i=0;i<scores.size();i++){
+			for(int j=0;j<scores.get(i).size();j++){
+				if(scores.get(i).get(j)>max){
+					locMaxI = i;
+					locMaxJ = j;
+					max = scores.get(i).get(j);
+				}
+			}
+		}
+
+		ArrayList<XY> idk = new ArrayList<XY>();
+		idk.add(allPieces.get(locMaxI));
+		idk.add(allMoves.get(locMaxI).get(locMaxJ));
+		return idk;
 	}
 
 	// This function will evaluate a position, including future developments, through basic min-maxing
 	// Might change from int to double later
-	public int recursiveNegaMaxSearch(Board board, int lowerBound, int upperBound, int n){ // n is depth which is telling current depth to search. Will search until depth = 0.
+	public static int recursiveNegaMaxSearch(Board board, int lowerBound, int upperBound, int n){ // n is depth which is telling current depth to search. Will search until depth = 0.
 		Evaluation evalor = new Evaluation();
 
 		ArrayList<XY> allPieces = listAllPieces(board.board); // returns every piece on the board of the color whos turn it is
@@ -53,13 +69,13 @@ public class Search{
 		for(int i=0;i<allMoves.size();i++){
 			for(int j=0;j<allMoves.get(i).size();j++){
 				if(score>=upperBound){
-					return score;
+					return score-1;
 				}
 				int d = n-1;
 				if(d>0){
-					// do move
+					board.move(allPieces.get(i),allMoves.get(i).get(j));
 					int v = -recursiveNegaMaxSearch(board.clone(), -upperBound, ((lowerBound>score)?-lowerBound:-score),d);
-					// undo move
+					board.undoMove();
 					if(v>score){
 						score = v;
 					}
@@ -67,21 +83,25 @@ public class Search{
 			}
 		}
 
-		return score;
-		/* (think box)
-		can we add the score value of a specific position to the end, just stored in the .x value, with the .y value being negative or something?
-		here we prune the list down by deleting all lists that are too high of a score (we're looking for the lowest possible moves)
-			Now wait just one god darn minute
-			How about you do another turn, except with the opposite colors turn, before pruning?
-			Oh yea, and you need to limit yourself to only doing one side's moves at a time. Right now you're doing every single one. 
-		we also append the lists value onto it, as a final XY with the y value being negative one.
-			That's actually not so doable. I may have to keep calling eval on each board position -_- it's inefficient, I know. For now, tough shit.
-		*/ 
+		return score-1;		 
 	}
-	public ArrayList<XY> listAllPieces(int[][] position){
-		// todo
+	public static ArrayList<XY> listAllPieces(int[][] board){
 		// Make sure it only returns pieces of the color of whos turn it is
+		boolean turn = ((board[8][0]==1)?true:false);
 
-		return new ArrayList<XY>();
+		ArrayList<XY> pieces = new ArrayList<XY>();
+
+		for(int i=0;i<8;i++){
+			for(int j=0;j<8;j++){
+				if(board[i][j] == 0){
+					continue;
+				}
+				if(turn == (board[i][j]>0)){
+					pieces.add(new XY(i,j));
+				}
+			}
+		}
+
+		return pieces;
 	}
 }
