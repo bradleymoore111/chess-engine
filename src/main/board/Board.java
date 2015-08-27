@@ -3,17 +3,17 @@ package main.board;
 import java.util.ArrayList;
 import main.board.piece.*;
 public class Board{
-	// public boolean sideToMove; 8,0
+	// public boolean sideToMove; // (8,0)
 	
-	// public boolean whiteKingCastle; 8,1
-	// public boolean whiteQueenCastle; 8,2
-	// public boolean blackKingCastle; 8,3
-	// public boolean blackQueenCastle; 8,4
+	// public boolean whiteKingCastle; // (8,1)
+	// public boolean whiteQueenCastle; // (8,2)
+	// public boolean blackKingCastle; // (8,3)
+	// public boolean blackQueenCastle; // (8,4)
 
-	// public boolean lastMoveEnPassantable; 8,5
-	// public int lastPawnEnPassantable; 8,6 // Which file can be captured via en passant
+	// public boolean lastMoveEnPassantable; // (8,5)
+	// public int lastPawnEnPassantable; // (8,6) // Which file can be captured via en passant
 
-	// public int movesSincePieceLost; 8,7 // 50-move rule
+	// public int movesSincePieceLost; // (8,7) // 50-move rule
 
 	/* 	Each piece will be represented by a number
 		0 - empty tile
@@ -74,6 +74,7 @@ public class Board{
 			{ 0, 0, 0, 0, 0, 0, 0, 0},
 			{ 6, 6, 6, 6, 6, 6, 6, 6},
 			{ 4, 2, 3, 5, 1, 3, 2, 4},
+			
 			{ 1, 1, 1, 1, 1, 0, 0, 0} // sideToMove, whiteKingCastle, whiteQueenCastle, blackKingCastle, blackQueenCastle, lastMoveEpPassantable, lastPawnEnPassantable, move Count or score not sure
 		};
 
