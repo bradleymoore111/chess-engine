@@ -42,8 +42,9 @@ public class Board{
 	private boolean lastMoveWasKingCastle = false;
 	private boolean lastMovePawnUpgrade = false;
 
-	private boolean lastMoveTookQueen = false; // castling
-	private boolean lastMoveTookKing = false; // castling
+	private boolean lastMoveTookQueenCastling = false; // castling
+	private boolean lastMoveTookKingCastling = false; // castling
+	private boolean undoable = false;
 
 	public Board(boolean init){
 		if(init)
@@ -491,11 +492,11 @@ public class Board{
 				else{lastMoveWasQueenCastle = false;lastMoveWasKingCastle = false;}
 				if(board[8][1] == 1){
 					board[8][1] = 0;
-					lastMoveTookKing = true;
+					lastMoveTookKingCastling = true;
 				}
 				if(board[8][2] == 1){
 					board[8][2] = 0;
-					lastMoveTookQueen = true;
+					lastMoveTookQueenCastling = true;
 				}				
 				// } even after it castles, it no longer has castling rights. We can disable them		
 			}
@@ -515,11 +516,11 @@ public class Board{
 				else{lastMoveWasQueenCastle = false;lastMoveWasKingCastle = false;}
 				if(board[8][3] == 1){
 					board[8][3] = 0;
-					lastMoveTookKing = true;
+					lastMoveTookKingCastling = true;
 				}
 				if(board[8][4] == 1){
 					board[8][4] = 0;
-					lastMoveTookQueen = true;
+					lastMoveTookQueenCastling = true;
 				}
 				//}
 			}
@@ -533,35 +534,35 @@ public class Board{
 				if(board[8][1]==1){ // rook hasn't previously moved
 					if(a.x==7){ // is the kingside rook
 						board[8][1] = 0;
-						lastMoveTookKing = true;
+						lastMoveTookKingCastling = true;
 					}
 				}else{
-					lastMoveTookKing = false;
+					lastMoveTookKingCastling = false;
 				}
 				if(board[8][2]==1){
 					if(a.x==0){
 						board[8][2] = 0;
-						lastMoveTookQueen = true;
+						lastMoveTookQueenCastling = true;
 					}
 				}else{
-					lastMoveTookQueen = false;
+					lastMoveTookQueenCastling = false;
 				}
 			}else{ // black
 				if(board[8][3]==1){
 					if(a.x==7){
 						board[8][3] = 0;
-						lastMoveTookKing = true;
+						lastMoveTookKingCastling = true;
 					}
 				}else{
-					lastMoveTookKing = false;
+					lastMoveTookKingCastling = false;
 				}
 				if(board[8][4]==1){
 					if(a.x==0){
 						board[8][4] = 0;
-						lastMoveTookQueen = true;
+						lastMoveTookQueenCastling = true;
 					}
 				}else{
-					lastMoveTookQueen = false;
+					lastMoveTookQueenCastling = false;
 				}
 			}
 		}
@@ -572,33 +573,33 @@ public class Board{
 				if(board[8][1]==1){
 					if(b.x==7){ // king's rook
 						board[8][1] = 0;
-						lastMoveTookKing = true;
+						lastMoveTookKingCastling = true;
 					}
 				}
 				if(board[8][2]==1){
 					if(b.x==0){
 						board[8][2] = 0;
-						lastMoveTookQueen = true;
+						lastMoveTookQueenCastling = true;
 					}
 				}
 			}else{
 				if(board[8][3]==1){
 					if(b.x==7){
 						board[8][3] = 0;
-						lastMoveTookKing = true;
+						lastMoveTookKingCastling = true;
 					}
 				}
 				if(board[8][4]==1){
 					if(b.x==0){
 						board[8][4] = 0;
-						lastMoveTookQueen = true;
+						lastMoveTookQueenCastling = true;
 					}
 				}
 			}
 		}
 		if(Math.abs(type)==2||Math.abs(type)==3||Math.abs(type)==5||Math.abs(type)==6){
-			lastMoveTookQueen = false;
-			lastMoveTookKing = false;
+			lastMoveTookQueenCastling = false;
+			lastMoveTookKingCastling = false;
 		}
 		board[8][0]*=-1; 
 		board[8][0]+=1; // toggles side to move
@@ -606,9 +607,14 @@ public class Board{
 		lastPiece = oldPiece;
 		lastMove = b;
 		oldPos = a;	
+
+		undoable = true;
 	}
 
 	public void undoMove(){
+		if(!undoable){
+			return;
+		}
 		int mult = ((board[8][0]>0)?-1:1);
 		if(lastMovePawnUpgrade){
 			board[oldPos.x][oldPos.y] = mult*6;
@@ -635,15 +641,17 @@ public class Board{
 			board[lastMove.x][lastMove.y] = lastPiece;
 		}
 
-		if(lastMoveTookQueen){
+		if(lastMoveTookQueenCastling){
 			board[8][3-mult] = 1;
 		}
-		if(lastMoveTookKing){
+		if(lastMoveTookKingCastling){
 			board[8][2-mult] = 1;
 		}
 
 		board[8][0]*=-1; 
 		board[8][0]+=1; // toggles side to move
+
+		undoable = false;
 	}
 
 	public String toString(){

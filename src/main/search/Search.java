@@ -104,4 +104,40 @@ public class Search{
 
 		return pieces;
 	}
+
+	/*
+
+	public static int alphaBetaMax (int alpha,int beta,int depthleft){
+
+		if (depthleft == 0): return evaluate()
+		for (all moves){
+			// do move
+			int score = alphaBetaMin(alpha, beta, depthleft-1); // need to pass in board, unless history is kept here
+			if( score >= beta):
+				return beta //fail hard beta-cutoff
+			if( score > alpha ):
+				alpha = score //alpha acts like max in MiniMax
+			// undo move?
+		}
+		return alpha
+	}
+
+	public static int alphaBetaMin(int alpha,int beta,int depthleft){
+		if ( depthleft == 0): return -evaluate()
+		for (all moves){
+			int score = alphaBetaMax(alpha, beta, depthleft-1); // would it be better to keep move history and undo it through here?
+			if( score <= alpha )
+				return alpha; //fail hard alpha-cutoff
+			if( score < beta )
+				beta = score; //beta acts like min in MiniMax
+			// undo move
+			// Or would it be better for the board to handle undoing of a move. Which we already have
+		}
+		return beta;
+	}
+
+	score = alphaBetaMax(-800000, +800000, 5)
+	print score
+
+	 */
 }
