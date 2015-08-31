@@ -74,6 +74,10 @@ public class Search{
 				int d = n-1;
 				if(d>0){
 					board.move(allPieces.get(i),allMoves.get(i).get(j));
+					// for(int k=0;k<d;k++){
+					// 	System.out.print("d");
+					// }
+					// System.out.println();
 					int v = -recursiveNegaMaxSearch(board.clone(), -upperBound, ((lowerBound>score)?-lowerBound:-score),d);
 					board.undoMove();
 					if(v>score){
