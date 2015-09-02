@@ -85,6 +85,7 @@ public class Pawn{
 			}
 		}
 
+		// en passant
 		if(board[8][5]==1){
 			if((x+1==board[8][6]||x-1==board[8][6])&&y==3){
 				moves.add(new XY(board[8][6],2));

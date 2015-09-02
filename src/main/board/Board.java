@@ -443,7 +443,7 @@ public class Board{
 			}
 		//  	Check if En Passant is actually happening (if enpassantable, if pawn taking on file, just check if en passant's happening)
 			else if(a.y==1&&b.y==3){ // Is double jumping
-				board[8][5] = 0;
+				board[8][5] = 1;
 				board[8][6] = a.x;
 			}else if(board[8][5]==1){ // Possible for an en passant move
 				if(a.x!=b.x && a.y==4 && b.x==board[8][6]){ // Still possible en passant, Pawn is taking onto en passant file
@@ -618,7 +618,8 @@ public class Board{
 		if(!undoable){
 			return;
 		}
-		int mult = ((board[8][0]>0)?-1:1);
+		int mult = (getPiece(lastMove)>0)?-1:1;
+		// int mult = ((board[8][0]>0)?-1:1);
 		if(lastMovePawnUpgrade){ // undoing queen upgrade
 			board[oldPos.x][oldPos.y] = mult*6;
 			board[lastMove.x][lastMove.y] = lastPiece;
