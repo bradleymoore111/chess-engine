@@ -25,6 +25,7 @@ public class Search{
 		for(int i=0;i<allMoves.size();i++){
 			scores.add(new ArrayList<Integer>());
 			for(int j=0;j<allMoves.get(i).size();j++){
+				System.out.println((allMoves.size()-i) + ", "+(allMoves.get(i).size()-j));
 				board.move(allPieces.get(i),allMoves.get(i).get(j));
 				scores.get(i).add(recursiveNegaMaxSearch(board.clone(),-8000,8000,n));
 				board.undoMove();

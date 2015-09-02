@@ -32,6 +32,7 @@ public class Board{
 	 */
 	public int[][] board;
 
+	public boolean moveLock = false; // whether a side can move on their turn or not 
 	public String message;
 
 	private int lastPiece = 0; // Piece that was overtaken
@@ -386,16 +387,18 @@ public class Board{
 	public void move(XY a,XY b){
 		// message = "HURR DURR WHY AIN'T THIS WORKING";
 		int type=getPiece(a);
-		if(type>0){
-			if(board[8][0]==0){
-				message = "not that side's turn";
-				return;
-			}
-		}else{
-			if(board[8][0]==1){
-				message = "not that side's turn";
-				return;
-			}
+		if(moveLock){
+			if(type>0){
+				if(board[8][0]==0){
+					message = "not that side's turn";
+					return;
+				}
+			}else{
+				if(board[8][0]==1){
+					message = "not that side's turn";
+					return;
+				}
+			}			
 		}
 		/*
 			For the actual engine, I probably won't be using this specific command, as it involves some unnecessary calculations such as checking if king is checked. Whereas for my type A calculation and branching, I'm probably going to just have a list of every single possible move, and want to filter each move preemptively to make sure legal. I'll still need the pawn and castle stuff, but can ignore the checking legal moves, so I'll copy pasta this function with an f in front of it for faster, but assuming legal move (so move will be carried out properly).
@@ -616,15 +619,15 @@ public class Board{
 			return;
 		}
 		int mult = ((board[8][0]>0)?-1:1);
-		if(lastMovePawnUpgrade){
+		if(lastMovePawnUpgrade){ // undoing queen upgrade
 			board[oldPos.x][oldPos.y] = mult*6;
 			board[lastMove.x][lastMove.y] = lastPiece;
-		}else if(lastMoveWasEnPassant){
-			board[oldPos.x][oldPos.y] = mult*6;
-			board[lastMove.x][oldPos.y] = mult*-6;
+		}else if(lastMoveWasEnPassant){ // undoing en Passant
+			board[oldPos.x][oldPos.y] = mult*-6;
+			board[lastMove.x][oldPos.y] = mult*6;
 			// need to clear space that en passant pawn has moved to. is color dependent
 			board[lastMove.x][lastMove.y] = 0;
-			board[8][5] = 0;
+			board[8][5] = 1;
 			board[8][6] = lastMove.x;
 		}else if(lastMoveWasQueenCastle){
 			board[4][oldPos.y] = mult; // resetting king

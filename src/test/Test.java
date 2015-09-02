@@ -15,7 +15,7 @@ public class Test{
 		while(true){
 			System.out.println(board.toString());
 			System.out.println("Previous command return message:\n"+message+"\n\n");
-			System.out.println("To move a piece, 'move' <x> <y> <x> <y>.\nTo get a pieces moves, 'list' <x> <y>\nTo see if king is 'check'ed, enter a color (true or false)\nTo 'undo' a move... yea.\nTo find the best move ever, 'search'");
+			System.out.println("To move a piece, 'move' <x> <y> <x> <y>.\nTo get a pieces moves, 'list' <x> <y>\nTo see if king is 'check'ed, enter a color (true or false)\nTo 'undo' a move... yea.\nTo find the best move ever, 'search'\nTo toggle ability to move when not turn, 'ToggleLock'");
 			String choice = a.next();
 			if(choice.equalsIgnoreCase("move")){
 				int x=a.nextInt();
@@ -38,7 +38,11 @@ public class Test{
 				board.undoMove();
 				message = "Undid move";
 			}else if(choice.equalsIgnoreCase("search")){
-				System.out.println(Search.search(board,a.nextInt()));
+				int n = a.nextInt();
+				message = "Best move EVER is\n"+Search.search(board,n)+"\nat "+n+" ply";
+			}else if(choice.equalsIgnoreCase("togglelock")){
+				board.moveLock = (board.moveLock)?false:true;
+				message = "Toggled board lock";
 			}
 		}
 	}
