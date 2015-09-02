@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import main.board.Board;
 import main.board.piece.*;
 import main.evaluation.Evaluation;
+
+import java.util.Scanner;
 public class Search{
 
 	// call function for each possible move, after making move, evaluate that board using min maxing.
 	// move with highest min maxed is the XY to be returned, as a 2 entry list
 	public static ArrayList<XY> search(Board board, int n){ // n = depth
+
+		Scanner a = new Scanner(System.in);
 
 		// make list of all possible moves for this color
 		ArrayList<XY> allPieces = listAllPieces(board.board);
@@ -27,13 +31,16 @@ public class Search{
 			for(int j=0;j<allMoves.get(i).size();j++){
 				System.out.println((allMoves.size()-i) + ", "+(allMoves.get(i).size()-j));
 				board.move(allPieces.get(i),allMoves.get(i).get(j));
+				System.out.println("\n\n\n\n/*\n"+board.toString()+"\n*/\n");
+				System.out.println("Waiting for input...");
+				String DELAY = a.nextLine();
 				scores.get(i).add(recursiveNegaMaxSearch(board.clone(),-8000,8000,n));
 				board.undoMove();
 			}
 		}
 
 		// find highest value within that list along with its location, return that move
-		int max = -8000;
+		int max = -800000;
 		int locMaxI = 0;
 		int locMaxJ = 0;
 

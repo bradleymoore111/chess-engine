@@ -47,24 +47,24 @@ public class Evaluation {
 			case 0:
 				return 0;
 			case -1:
-				return 200;
+				return 20000;
 			case 1:
-				return 400;
+				return 40000;
 			case -2:
 			case 2:
-				return 3;
+				return 300;
 			case -3:
 			case 3:
-				return 3;
+				return 300;
 			case -4:
 			case 4:
-				return 5;
+				return 500;
 			case -5:
 			case 5:
-				return 9;
+				return 900;
 			case -6:
 			case 6:
-				return 1;
+				return 100;
 		}
 
 		return 0;

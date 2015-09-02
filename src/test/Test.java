@@ -15,7 +15,7 @@ public class Test{
 		while(true){
 			System.out.println(board.toString());
 			System.out.println("Previous command return message:\n"+message+"\n\n");
-			System.out.println("To move a piece, 'move' <x> <y> <x> <y>.\nTo get a pieces moves, 'list' <x> <y>\nTo see if king is 'check'ed, enter a color (true or false)\nTo 'undo' a move... yea.\nTo find the best move ever, 'search'\nTo toggle ability to move when not turn, 'ToggleLock'");
+			System.out.println("To move a piece, 'move' <x> <y> <x> <y>.\nTo get a pieces moves, 'list' <x> <y>\nTo see if king is 'check'ed, enter a color (true or false)\nTo 'undo' a move... yea.\nTo find the best move ever, 'search'\nTo toggle ability to move when not turn, 'ToggleLock'\nTo reset the board to starting position, 'reset'");
 			String choice = a.next();
 			if(choice.equalsIgnoreCase("move")){
 				int x=a.nextInt();
@@ -43,6 +43,8 @@ public class Test{
 			}else if(choice.equalsIgnoreCase("togglelock")){
 				board.moveLock = (board.moveLock)?false:true;
 				message = "Toggled board lock";
+			}else if(choice.equalsIgnoreCase("reset")){
+				board.reset();
 			}
 		}
 	}

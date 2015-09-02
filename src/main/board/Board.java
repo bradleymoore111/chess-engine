@@ -52,12 +52,38 @@ public class Board{
 			initialize(); //todo;
 	}
 
+	public Board(){
+		this(true);
+	}
+
 	public Board(int[][] board){
 		this.board = board;
 	}
 
+
 	public Board clone(){
 		return new Board(board);
+	}
+
+	public void reset(){
+		initialize();
+
+		// copy pasted from above, all variables that are modified/defined (a true reset)
+		moveLock = false; // whether a side can move on their turn or not 
+
+		lastPiece = 0; // Piece that was overtaken
+		lastMove = new XY(0,0); // Location piece was moved to
+		oldPos = new XY(0,0); // Old position originally moved from
+		lastMoveWasEnPassant = false;
+		lastMoveWasQueenCastle = false;
+		lastMoveWasKingCastle = false;
+		lastMovePawnUpgrade = false;
+
+		lastMoveTookQueenCastling = false; // castling
+		lastMoveTookKingCastling = false; // castling
+		undoable = false;
+
+		message = "";
 	}
 
 	public String getMessage(){
@@ -386,6 +412,7 @@ public class Board{
 
 	public void move(XY a,XY b){
 		// message = "HURR DURR WHY AIN'T THIS WORKING";
+		undoable = false;
 		int type=getPiece(a);
 		if(moveLock){
 			if(type>0){
@@ -662,7 +689,7 @@ public class Board{
 		// Very quick ascii representation of the board.
 		String s="\n";
 
-		s+= ((board[8][0]==1)?"White":"Black") + " to move.\n\n|-----|-----|-----|-----|-----|-----|-----|-----|";
+		s+= ((board[8][0]==1)?"White":"Black") + " to move.\n"+((moveLock)?"Moves are locked":"Moves aren't locked")+"\n\n|-----|-----|-----|-----|-----|-----|-----|-----|";
 		for(int i=7;i>=0;i--){
 			s+="\n|";
 			for(int j=0;j<8;j++){
