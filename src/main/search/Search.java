@@ -22,6 +22,14 @@ public class Search{
 			allMoves.add(board.getMoves(allPieces.get(i))); // Generate every single possible move
 		}
 
+		for(int i=0;i<allMoves.size();i++){
+			if(allMoves.get(i).size()==0){
+				allPieces.remove(i);
+				allMoves.remove(i);
+				i--;
+			}
+		}
+
 		// make additional list for storing negamax value of each move
 		ArrayList<ArrayList<Integer>> scores = new ArrayList<ArrayList<Integer>>();
 
@@ -30,12 +38,27 @@ public class Search{
 			scores.add(new ArrayList<Integer>());
 			for(int j=0;j<allMoves.get(i).size();j++){
 				System.out.println((allMoves.size()-i) + ", "+(allMoves.get(i).size()-j));
+				// System.out.println("\n\n/*Before move\n"+board.toString()+"\n*/\n");
 				board.move(allPieces.get(i),allMoves.get(i).get(j));
-				System.out.println("\n\n\n\n/*\n"+board.toString()+"\n*/\n");
-				System.out.println("Waiting for input...");
-				String DELAY = a.nextLine();
-				scores.get(i).add(recursiveNegaMaxSearch(board.clone(),-8000,8000,n));
+				// System.out.println("\n\n/*Before scores, after move\n"+board.toString()+"\n*/\n");
+				// System.out.println("Waiting for input...");
+				// try{Thread.sleep(500);}catch(Exception ie){}
+
+				int[][] temp = new int[9][8];
+
+				for(int l=0;l<9;l++){
+					for(int m=0;m<8;m++){
+						temp[l][m] = board.board[l][m];
+					}
+				}
+
+				scores.get(i).add(recursiveNegaMaxSearch(new Board(temp),-8000,8000,n)); // Within this line is where everything breaks
+																					   // But it's being passed a clone right? It shouldn't be possible for board to be modified here.
+				// System.out.println("\n\n/*Before undo, after scores\n"+board.toString()+"\n*/\n");
 				board.undoMove();
+				// System.out.println("/*After undo\n"+board.toString()+"\n*/\n");
+				// String DELAY = a.nextLine();
+
 			}
 		}
 
@@ -72,8 +95,17 @@ public class Search{
 			allMoves.add(board.getMoves(allPieces.get(i))); // Generate every single possible move
 		}
 
+		for(int i=0;i<allMoves.size();i++){
+			if(allMoves.get(i).size()==0){
+				allPieces.remove(i);
+				allMoves.remove(i);
+				i--;
+			}
+		}
+
 		int score = n>1 ? -8000 : evalor.evaluateBoard(board.board); // score so far
 
+		// System.out.println("allMoves: "+allMoves.size()+", {"+allMoves.toString()+"}");
 		for(int i=0;i<allMoves.size();i++){
 			for(int j=0;j<allMoves.get(i).size();j++){
 				if(score>=upperBound){
@@ -82,15 +114,33 @@ public class Search{
 				int d = n-1;
 				if(d>0){
 					board.move(allPieces.get(i),allMoves.get(i).get(j));
+					// if(n>4){
+					// 	System.out.println((allMoves.size()-i) + ", "+(allMoves.get(i).size()-j));
+					// 	System.out.println("\n\n/*\n"+board.toString()+"\n*/\n");
+					// 	System.out.println("Lagging...");
+					// 	try{Thread.sleep(500);}catch(Exception ie){}
+					// }
 					// for(int k=0;k<d;k++){
 					// 	System.out.print("d");
 					// }
 					// System.out.println();
-					int v = -recursiveNegaMaxSearch(board.clone(), -upperBound, ((lowerBound>score)?-lowerBound:-score),d);
+
+					int[][] temp = new int[9][8];
+
+					for(int l=0;l<9;l++){
+						for(int m=0;m<8;m++){
+							temp[l][m] = board.board[l][m];
+						}
+					}
+
+
+					int v = -recursiveNegaMaxSearch(new Board(temp), -upperBound, ((lowerBound>score)?-lowerBound:-score),d);
 					board.undoMove();
 					if(v>score){
 						score = v;
 					}
+				}else{
+					return score-1;
 				}
 			}
 		}

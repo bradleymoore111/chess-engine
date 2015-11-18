@@ -45,6 +45,8 @@ public class Test{
 				message = "Toggled board lock";
 			}else if(choice.equalsIgnoreCase("reset")){
 				board.reset();
+			}else if(choice.equalsIgnoreCase("clone")){
+				Board temp = board.clone();
 			}
 		}
 	}
